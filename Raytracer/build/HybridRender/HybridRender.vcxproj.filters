@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{b64a56c8-6110-4d8a-a9ab-80b77771f969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Common">
+      <UniqueIdentifier>{7cee2675-b710-46df-aa7f-e2506dc3bb17}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\HybridRender\HybridRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\mesh.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\scene.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\shader.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\texture.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\buffer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\camera.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\framebuffer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\HybridRender\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\raytrace.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Common\mesh.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Common\scene.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Common\shader.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Common\texture.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Common\buffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Common\camera.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Common\framebuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\HybridRender\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Common\raytrace.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Common\vector.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\resources\HybridRender\ToneMapper.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\ToneMapper.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\TSSAA.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\TSSAA.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Common.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Deferred.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Deferred.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\DepthOfField.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\DepthOfField.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Forward.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Forward.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\ForwardToCube.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\ForwardToCube.geom.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\ForwardToCube.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\GaussBlur.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\GaussBlur.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Light.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Light.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\MotionBlur.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\MotionBlur.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Resolve.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\Resolve.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\ScreenSpaceReflections.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\ScreenSpaceReflections.frag_clipspace.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\ScreenSpaceReflections.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\SimpleTex.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\SimpleTex.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\payload.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\raytrace.compute.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\Common\raytrace\raygen_sample.glsl">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\..\resources\Common\raytrace\raytrace.glsl">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\..\resources\Common\raytrace\types.glsl">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\..\resources\Common\raytrace\intersection.glsl">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\..\resources\Common\raytrace\lighting.glsl">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\..\resources\Common\raytrace\misc.glsl">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\..\resources\Common\raytrace\payload_sample.glsl">
+      <Filter>Resource Files\Common</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\raytraced_reflections.compute.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\raytraced_light.compute.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\raytraced_ambientocclusion.compute.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\raytraced_indirectlight.compute.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\bilateral.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\bilateral.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\DepthOnly.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\DepthOnly.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\indirectblend.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\indirectblend.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\raytraced_shadows.compute.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\pathtracing.compute.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\EnvMap.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\EnvMap.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\denoise.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\resources\HybridRender\denoise.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

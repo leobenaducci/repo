@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Common\buffer.cpp" />
+    <ClCompile Include="..\..\src\Common\camera.cpp" />
+    <ClCompile Include="..\..\src\Common\framebuffer.cpp" />
+    <ClCompile Include="..\..\src\Common\mesh.cpp" />
+    <ClCompile Include="..\..\src\Common\raytrace.cpp" />
+    <ClCompile Include="..\..\src\Common\scene.cpp" />
+    <ClCompile Include="..\..\src\Common\shader.cpp" />
+    <ClCompile Include="..\..\src\Common\texture.cpp" />
+    <ClCompile Include="..\..\src\HybridRender\HybridRender.cpp" />
+    <ClCompile Include="..\..\src\HybridRender\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Common\buffer.h" />
+    <ClInclude Include="..\..\src\Common\camera.h" />
+    <ClInclude Include="..\..\src\Common\framebuffer.h" />
+    <ClInclude Include="..\..\src\Common\mesh.h" />
+    <ClInclude Include="..\..\src\Common\raytrace.h" />
+    <ClInclude Include="..\..\src\Common\scene.h" />
+    <ClInclude Include="..\..\src\Common\shader.h" />
+    <ClInclude Include="..\..\src\Common\texture.h" />
+    <ClInclude Include="..\..\src\Common\vector.h" />
+    <ClInclude Include="..\..\src\HybridRender\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\resources\Common\raytrace\intersection.glsl" />
+    <None Include="..\..\resources\Common\raytrace\lighting.glsl" />
+    <None Include="..\..\resources\Common\raytrace\misc.glsl" />
+    <None Include="..\..\resources\Common\raytrace\payload_sample.glsl" />
+    <None Include="..\..\resources\Common\raytrace\raygen_sample.glsl" />
+    <None Include="..\..\resources\Common\raytrace\raytrace.glsl" />
+    <None Include="..\..\resources\Common\raytrace\types.glsl" />
+    <None Include="..\..\resources\HybridRender\bilateral.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\bilateral.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\Common.glsl" />
+    <None Include="..\..\resources\HybridRender\Deferred.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\Deferred.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\denoise.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\denoise.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\DepthOfField.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\DepthOfField.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\DepthOnly.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\DepthOnly.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\EnvMap.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\EnvMap.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\Forward.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\Forward.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\ForwardToCube.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\ForwardToCube.geom.glsl" />
+    <None Include="..\..\resources\HybridRender\ForwardToCube.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\GaussBlur.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\GaussBlur.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\indirectblend.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\indirectblend.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\Light.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\Light.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\MotionBlur.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\MotionBlur.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\pathtracing.compute.glsl" />
+    <None Include="..\..\resources\HybridRender\payload.glsl" />
+    <None Include="..\..\resources\HybridRender\raytrace.compute.glsl" />
+    <None Include="..\..\resources\HybridRender\raytraced_ambientocclusion.compute.glsl" />
+    <None Include="..\..\resources\HybridRender\raytraced_indirectlight.compute.glsl" />
+    <None Include="..\..\resources\HybridRender\raytraced_light.compute.glsl" />
+    <None Include="..\..\resources\HybridRender\raytraced_reflections.compute.glsl" />
+    <None Include="..\..\resources\HybridRender\raytraced_shadows.compute.glsl" />
+    <None Include="..\..\resources\HybridRender\Resolve.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\Resolve.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\ScreenSpaceReflections.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\ScreenSpaceReflections.frag_clipspace.glsl" />
+    <None Include="..\..\resources\HybridRender\ScreenSpaceReflections.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\SimpleTex.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\SimpleTex.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\ToneMapper.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\ToneMapper.vert.glsl" />
+    <None Include="..\..\resources\HybridRender\TSSAA.frag.glsl" />
+    <None Include="..\..\resources\HybridRender\TSSAA.vert.glsl" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{D50C4605-F362-44D6-A874-34FCDF2ADB1D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>HybridRender</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\x86</OutDir>
+    <IntDir>$(SolutionDir)..\intermediate\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(SolutionDir)..\intermediate\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(ProjectName)64</TargetName>
+    <OutDir>$(SolutionDir)..\bin\x64</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\x86</OutDir>
+    <IntDir>$(SolutionDir)..\intermediate\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(SolutionDir)..\intermediate\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)64d</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\bin\x64</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)/../extern/;$(SolutionDir)/../extern/assimp/include;$(SolutionDir)../src/HybridRender</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../extern/;$(SolutionDir)/../extern/AntTweakBar/lib</AdditionalLibraryDirectories>
+      <StackReserveSize>8388608</StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;WIN64;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)/../extern/;$(SolutionDir)/../extern/assimp/include;$(SolutionDir)../src/HybridRender</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../extern/;$(SolutionDir)/../extern/AntTweakBar/lib</AdditionalLibraryDirectories>
+      <StackReserveSize>8388608</StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)/../extern/;$(SolutionDir)/../extern/assimp/include;$(SolutionDir)../src/HybridRender</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../extern/;$(SolutionDir)/../extern/AntTweakBar/lib</AdditionalLibraryDirectories>
+      <StackReserveSize>8388608</StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;WIN64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)/../extern/;$(SolutionDir)/../extern/assimp/include;$(SolutionDir)../src/HybridRender</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../extern/;$(SolutionDir)/../extern/AntTweakBar/lib</AdditionalLibraryDirectories>
+      <StackReserveSize>8388608</StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
