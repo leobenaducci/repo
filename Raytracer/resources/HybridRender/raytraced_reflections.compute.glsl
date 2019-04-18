@@ -24,16 +24,16 @@ float GRoughness;
 
 void Miss(RecursiveRay_s Ray, int RayType, inout Payload_s Payload)
 {
-	//if (RayType == RAY_SHADOW)
-	//{
-	//	Payload.Accum = vec4(1.0);
-	//}
-	//else
+	if (RayType == RAY_SHADOW)
+	{
+		Payload.Accum = vec4(1.0);
+	}
+	else
 	{
 		vec3 Dir = (vec4(Ray.Direction, 0.0) * CubemapRotation).xyz;
 
 		float theta = atan(Dir.z, Dir.x) + PI;
-		vec4 col = textureLod(SkyBox2D, vec2(theta / (2 * PI), 1 - (Dir.y*0.5 + 0.5)), GRoughness);
+		vec4 col = textureLod(SkyBox2D, vec2(theta / (2 * PI), 1 - (Dir.y*0.5 + 0.5)), GRoughness * 7);
 		Payload.Accum = col * SkyBoxIntensity;
 	}
 }
@@ -51,26 +51,15 @@ bool AnyHit(RecursiveRay_s Ray, RayResult_s Result, Material_s Material, int Ray
 
 RecursiveRay_s ClosestHit(RecursiveRay_s Ray, RayResult_s Result, Material_s Material, int RayType, int Depth, inout Payload_s Payload)
 {
-#if 1
-	vec3 Light = max(0.f, dot(-LightDir, Result.Normal.xyz)) * Material.Color.xyz * 0.33; 
-#else
-	vec3 Light = CookTorranceDir(LightDir, Result.Pos, CameraPos, vec4(Result.Normal.xyz, Material.RoughnessMetallic.y), vec4(Material.Color.xyz, Material.RoughnessMetallic.x)) * 5;
-#endif
-
-#if 0
-	vec4 ShadowMapPos = ShadowmapMatrix * vec4(Result.Pos.xyz, 1.0);
-	ShadowMapPos.xy = ShadowMapPos.xy * vec2(0.5) + vec2(0.5);
-	Light *= texture2D(Shadowmap, ShadowMapPos.xy).x <= ShadowMapPos.z - 0.001f ? 0.0f : 1.0;
-#else
+	vec3 Light = CookTorranceDir(-LightDir, Result.Pos, CameraPos, vec4(Result.Normal.xyz, Material.RoughnessMetallic.y), vec4(Material.Color.xyz, Material.RoughnessMetallic.x)) * 5;
 	Light *= Ray_Shadow(Result.Pos + Result.Normal, -LightDir).Accum.xyz;
-#endif
 
 	Payload.Accum.xyz += (Light + Material.Color.xyz * Material.EmissiveUnused.x);
 
-	//if (Depth <= 1 && Material.RoughnessMetallic.y > 0.95)
-	//{
-	//	return NewRay(Result.Pos + normalize(Result.Normal) * 1, reflectN(Ray.Direction, Result.Normal));
-	//}
+	if (Depth <= 1)
+	{
+		return NewRay(Result.Pos + normalize(Result.Normal), reflectN(Ray.Direction, Result.Normal));
+	}
 
 	return StopRay();
 }
@@ -98,11 +87,21 @@ void main()
 		vec3 WN = normalize(NormalMetallic.xyz * 2 - 1);
 		vec3 WV = normalize(wPos - CameraPos);
 
-		vec3 WR = mix(WN, normalize(reflectN(WV, WN)), NormalMetallic.w);
+		vec3 WR = reflect(WV, WN);
 
-		GRoughness = ColorRoughness.w;
-		Payload_s Payload = Ray_Main(wPos + WN * 15, WR + rand3(iFrame) * clamp(ColorRoughness.w, 0.05, 0.95));
-		Output = clamp(Payload.Accum.xyz * ColorRoughness.xyz, vec3(0.0), vec3(8.0));
+		GRoughness = clamp(ColorRoughness.w, 0.05, 0.65);
+
+		vec3 RayDir = WR + rand3(iFrame) * GRoughness;
+		vec3 Factor = CookTorranceDir(-RayDir, WV, CameraPos, vec4(WN.xyz, NormalMetallic.w), vec4(ColorRoughness.xyz, GRoughness), 0.f, 1.f);
+
+		Payload_s Payload;
+		if (any(max(max(Factor.x, Factor.y), Factor.z) > 0))
+		{
+			Payload = Ray_Main(wPos + WN * Depth.x * 10, RayDir);
+			Payload.Accum.xyz *= Factor;
+		}
+
+		Output = clamp(Payload.Accum.xyz, vec3(0.0), vec3(8.0));
 	}
 
 	imageStore(OutputBuffer, FragCoord, vec4(Output, 1.0));

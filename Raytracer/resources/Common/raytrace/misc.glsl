@@ -9,24 +9,38 @@ void swap(inout float a, inout float b) { float c = a; a = b; b = c; }
 void swap(inout vec2 a, inout vec2 b) { vec2 c = a; a = b; b = c; }
 void swap(inout vec3 a, inout vec3 b) { vec3 c = a; a = b; b = c; }
 
+uint wang_hash(uint seed)
+{
+	seed = (seed ^ 61) ^ (seed >> 16);
+	seed *= 9;
+	seed = seed ^ (seed >> 4);
+	seed *= 0x27d4eb2d;
+	seed = seed ^ (seed >> 15);
+	return seed;
+}
+
 float rand(float co)
 {
-	return fract(52.9829189f * (fract(floor(co * 5) * 0.06711056f + floor(co * 3) * 0.00583715f))) * 2 - 1;
+	uint GlobalInvocationIndex = 0*gl_GlobalInvocationID.z * 1280*720 +
+								 gl_GlobalInvocationID.y * 1280 +
+								 gl_GlobalInvocationID.x;
+
+	return fract(wang_hash(GlobalInvocationIndex + uint(co)^100) * 0.0001f);
 }
 
 vec2 rand(vec2 co)
 {
-	return vec2(rand(co.x-co.y*2), rand(co.y+co.x*0.5));
+	return vec2(rand(co.x), rand(co.y));
 }
 
 vec3 rand(vec3 co)
 {
-	return vec3(rand(co.x*3-co.z+co.y*2), rand(co.y+co.z*2+co.x*15), rand(co.z+co.y*1.3+co.x*0.7));
+	return vec3(rand(co.x), rand(co.y), rand(co.z));
 }
 
 vec3 rand3(float Frame)
 {
-	return rand(vec3((gl_GlobalInvocationID.xyz + gl_LocalInvocationID.xyz * 2) ^ ivec3(Frame)));
+	return rand(vec3(ivec3(0x1234 ^ uint(Frame), 0x1432 ^ uint(Frame), 0x1243 ^ uint(Frame))));
 }
 
 vec3 randSphere(float fFrame)

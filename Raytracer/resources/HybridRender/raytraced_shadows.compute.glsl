@@ -13,6 +13,7 @@ uniform ivec2 Offset;
 uniform int Scale;
 uniform int FrameNum;
 uniform vec3 LightDir;
+uniform int RayTracedShadowsScale;
 
 void Miss(RecursiveRay_s Ray, int RayType, inout Payload_s Payload)
 {
@@ -41,14 +42,14 @@ void main()
 	
 	const vec3 Eye = normalize(CameraEnd - CameraPos);
 
-	float Alpha = texelFetch(InputColorRoughness, FragCoord*2, 0).w;
-	vec4 Depth = texelFetch(InputLinearDepth, FragCoord*2, 0);
-	vec4 NormalMetallic = texelFetch(InputNormalMetallic, FragCoord*2, 0);
+	float Alpha = texelFetch(InputColorRoughness, FragCoord*RayTracedShadowsScale, 0).w;
+	vec4 Depth = texelFetch(InputLinearDepth, FragCoord*RayTracedShadowsScale, 0);
+	vec4 NormalMetallic = texelFetch(InputNormalMetallic, FragCoord*RayTracedShadowsScale, 0);
 	NormalMetallic.xyz = normalize(NormalMetallic.xyz * 2 - 1);
 	vec3 wPos = mix(CameraPos, CameraEnd, Depth.x).xyz;
 	vec3 Normal = NormalMetallic.xyz;
 
-	vec3 Dir = -LightDir + rand3(FrameNum) * 0.02;
+	vec3 Dir = -LightDir + rand3(FrameNum) * 0.1;
 	float Shadow = Ray_Shadow(wPos + Dir * Depth.x * 15, Dir).Accum.x;
 
 	imageStore(OutputBuffer, FragCoord, vec4(vec3(Shadow), 1.0));

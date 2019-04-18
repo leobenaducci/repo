@@ -16,6 +16,7 @@ layout(location = 0) in vec2 iTexCoords;
 
 #ifdef RAYTRACED_SHADOWS
 	layout(binding = 5) uniform sampler2D RaytracedShadows;
+	uniform int RayTracedShadowsLevel = 0;
 #else
 	layout(binding = 4) uniform sampler2D Shadowmap;
 	uniform mat4 ShadowmapMatrix;
@@ -64,10 +65,11 @@ void main()
 #else
 
 		Accum += CookTorranceDir(wPos, CameraPos, NormalMetallic, ColorRoughness);
+
 		//Accum += CookTorrancePoint(wPos, CameraPos, LightPos, NormalMetallic, ColorRoughness);
 
 #ifdef RAYTRACED_SHADOWS
-		Accum.xyz *= texture2D(RaytracedShadows, fTC.xy, 1).xyz;
+		Accum.xyz *= texture2D(RaytracedShadows, fTC.xy, RayTracedShadowsLevel).xyz;
 #else
 		ShadowMapPos = ShadowmapMatrix * vec4(wPos.xyz, 1.0);
 		ShadowMapPos.xy = ShadowMapPos.xy * vec2(0.5) + vec2(0.5);

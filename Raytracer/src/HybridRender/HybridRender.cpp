@@ -387,7 +387,6 @@ void RenderScene()
 			GBuffer_RT0.Bind(2);
 			glDisable(GL_BLEND);
 			Scene::DrawFullscreenQuad(nullptr, 0, nullptr);
-			DenoiseShader.SetParameter("InputTexLevel", 0);
 		}
 		else
 		{
@@ -414,10 +413,10 @@ void RenderScene()
 	}
 	else
 	{
+		int RAY_SHADOWS_SCALE = bHalfRes ? 2 : 1;
+
 		if (bRaytracing)
 		{
-			int RAY_SHADOWS_SCALE = bHalfRes ? 2 : 2;
-
 			AuxBufferColor.BindImage(0, true, RAY_SHADOWS_SCALE - 1);
 
 			RaytracedShadowsShader.Use(0);
@@ -426,6 +425,7 @@ void RenderScene()
 			RaytracedShadowsShader.SetParameter("OutputBuffer", 0);
 			RaytracedShadowsShader.SetParameter("Offset", RAY_SHADOWS_SCALE == 1 ? ivec2(0) : ivec2(FrameNum & 1, (FrameNum / 2) & 1));
 			RaytracedShadowsShader.SetParameter("FrameNum", FrameNum);
+			RaytracedShadowsShader.SetParameter("RayTracedShadowsScale", RAY_SHADOWS_SCALE);			
 
 			RaytracedShadowsShader.Dispatch(RenderTargetSize[0] / RAY_SHADOWS_SCALE, RenderTargetSize[1] / RAY_SHADOWS_SCALE, 1, 0);
 
@@ -439,7 +439,7 @@ void RenderScene()
 			ShadowmapBufferColor.Bind(4);
 			AuxBufferColor.Bind(5);
 
-			Scene::DrawFullscreenQuad(&LightShader, bRaytracing, [](Shader* pShader, uint32_t Flags)
+			Scene::DrawFullscreenQuad(&LightShader, bRaytracing, [RAY_SHADOWS_SCALE](Shader* pShader, uint32_t Flags)
 			{
 				SetSceneParemeters(pShader, Flags);
 
@@ -447,6 +447,7 @@ void RenderScene()
 
 				pShader->SetParameter("Shadowmap", 4);
 				pShader->SetParameter("RaytracedShadows", 5);
+				pShader->SetParameter("RayTracedShadowsLevel", RAY_SHADOWS_SCALE - 1);
 				//pShader->SetParameter("RaytracedShadowsLevel", bHalfRes ? 1.f : 0.f);
 			});
 		}
@@ -550,38 +551,78 @@ void RenderScene()
 			if (bRaytracing)
 			{
 				SkyBox2D[iSkyBox].Bind(3);
-				AuxBufferColor.BindImage(0, true, 1);
 
-				RaytracedAmbientOcclusionShader.Use(0);
-				CurrentScene.SetRaytraceParameters(RaytracedAmbientOcclusionShader);
-				RaytracedAmbientOcclusionShader.SetParameter("iResolution", vec2(RenderTargetSize[0] / 2, RenderTargetSize[1] / 2));
-				RaytracedAmbientOcclusionShader.SetParameter("OutputBuffer", 0);
-				RaytracedAmbientOcclusionShader.SetParameter("Offset", ivec2(FrameNum & 1, (FrameNum / 2) & 1));
-				RaytracedAmbientOcclusionShader.SetParameter("Scale", 2);
-				RaytracedAmbientOcclusionShader.SetParameter("iFrame", FrameNum);
-				RaytracedAmbientOcclusionShader.SetParameter("SkyBox2D", 3);
-				RaytracedAmbientOcclusionShader.SetParameter("CubemapRotation", CubemapRotation);
+				if (true)
+				{
+					AuxBufferColor.BindImage(0, true, 0);
 
-				RaytracedAmbientOcclusionShader.Dispatch(RenderTargetSize[0] / 2, RenderTargetSize[1] / 2, 1, 0);
+					RaytracedAmbientOcclusionShader.Use(0);
+					CurrentScene.SetRaytraceParameters(RaytracedAmbientOcclusionShader);
+					RaytracedAmbientOcclusionShader.SetParameter("iResolution", vec2(RenderTargetSize[0], RenderTargetSize[1]));
+					RaytracedAmbientOcclusionShader.SetParameter("OutputBuffer", 0);
+					RaytracedAmbientOcclusionShader.SetParameter("Offset", ivec2(0));
+					RaytracedAmbientOcclusionShader.SetParameter("Scale", 1);
+					RaytracedAmbientOcclusionShader.SetParameter("iFrame", FrameNum);
+					RaytracedAmbientOcclusionShader.SetParameter("SkyBox2D", 3);
+					RaytracedAmbientOcclusionShader.SetParameter("CubemapRotation", CubemapRotation);
 
-				glTextureBarrierNV();
+					RaytracedAmbientOcclusionShader.Dispatch(RenderTargetSize[0], RenderTargetSize[1], 1, 0);
 
-				PostProcessBufferOnlyColor.Bind();
-				AuxBufferColor.Bind(0);
+					glTextureBarrierNV();
 
-				BilateralShader.Use(0);
-				BilateralShader.SetParameter("InputTex", 0);
-				BilateralShader.SetParameter("InputTexLevel", 1);
-				BilateralShader.SetParameter("iResolution", vec2(RenderTargetSize[0] / 2, RenderTargetSize[1] / 2));
+					PostProcessBufferOnlyColor.Bind();
+					AuxBufferColor.Bind(0);
 
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+					SimpleTexShader.Use(0);
+					SimpleTexShader.SetParameter("InputTex", 0);
+					SimpleTexShader.SetParameter("InputTexLevel", 0);
+					SimpleTexShader.SetParameter("iResolution", vec2(RenderTargetSize[0], RenderTargetSize[1]));
 
-				Scene::DrawFullscreenQuad(nullptr, 0, nullptr);
+					glEnable(GL_BLEND);
+					glBlendFunc(GL_ONE, GL_ONE);
 
-				glDisable(GL_BLEND);
+					Scene::DrawFullscreenQuad(nullptr, 0, nullptr);
 
-				BilateralShader.SetParameter("InputTexLevel", 0);
+					glDisable(GL_BLEND);
+
+					BilateralShader.SetParameter("InputTexLevel", 0);
+
+				}
+				else
+				{
+					AuxBufferColor.BindImage(0, true, 1);
+
+					RaytracedAmbientOcclusionShader.Use(0);
+					CurrentScene.SetRaytraceParameters(RaytracedAmbientOcclusionShader);
+					RaytracedAmbientOcclusionShader.SetParameter("iResolution", vec2(RenderTargetSize[0] / 2, RenderTargetSize[1] / 2));
+					RaytracedAmbientOcclusionShader.SetParameter("OutputBuffer", 0);
+					RaytracedAmbientOcclusionShader.SetParameter("Offset", ivec2(FrameNum & 1, (FrameNum / 2) & 1));
+					RaytracedAmbientOcclusionShader.SetParameter("Scale", 2);
+					RaytracedAmbientOcclusionShader.SetParameter("iFrame", FrameNum);
+					RaytracedAmbientOcclusionShader.SetParameter("SkyBox2D", 3);
+					RaytracedAmbientOcclusionShader.SetParameter("CubemapRotation", CubemapRotation);
+
+					RaytracedAmbientOcclusionShader.Dispatch(RenderTargetSize[0] / 2, RenderTargetSize[1] / 2, 1, 0);
+
+					glTextureBarrierNV();
+
+					PostProcessBufferOnlyColor.Bind();
+					AuxBufferColor.Bind(0);
+
+					BilateralShader.Use(0);
+					BilateralShader.SetParameter("InputTex", 0);
+					BilateralShader.SetParameter("InputTexLevel", 1);
+					BilateralShader.SetParameter("iResolution", vec2(RenderTargetSize[0] / 2, RenderTargetSize[1] / 2));
+
+					glEnable(GL_BLEND);
+					glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+
+					Scene::DrawFullscreenQuad(nullptr, 0, nullptr);
+
+					glDisable(GL_BLEND);
+
+					BilateralShader.SetParameter("InputTexLevel", 0);
+				}
 			}
 		}
 

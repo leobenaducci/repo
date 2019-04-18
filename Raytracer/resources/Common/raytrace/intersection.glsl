@@ -46,10 +46,10 @@ bool IntersectTriangle(vec3 orig, vec3 dir, vec3 A, vec3 B, vec3 C, out float U,
 
 void IntersectSceneBvh(inout Context_s Context, int RayType)
 {
-	Object_s Obj;
-	MeshShape_s Shape;
 	BvhNode_s* Tree = Scene.Tree;
-	vec3 PrevRayOrigin, PrevRayDir;
+	vec3 PrevRayOrigin , PrevRayDir;
+	MeshShape_s Shape;
+	int ObjId;
 
 	int Node = 0, SceneNode = 0;
 	do
@@ -65,7 +65,8 @@ void IntersectSceneBvh(inout Context_s Context, int RayType)
 			}
 			else if(SceneNode == 0) // is scene tree?
 			{
-				Obj = Scene.Objects[-(ChildsNext.x + 1)];
+				ObjId = -(ChildsNext.x + 1);
+				Object_s Obj = Scene.Objects[-(ChildsNext.x + 1)];
 				Shape = Meshes[Obj.MeshShape.x].Shapes[Obj.MeshShape.y];
 				Tree = Shape.BvhTree;
 
@@ -85,13 +86,16 @@ void IntersectSceneBvh(inout Context_s Context, int RayType)
 				vec3 TempPos;
 				int polyIdx = -(ChildsNext.x + 1);
 
-				vec4 A = Shape.Triangles[polyIdx * 3 + 0];
-				vec4 B = Shape.Triangles[polyIdx * 3 + 1];
-				vec4 C = Shape.Triangles[polyIdx * 3 + 2];
+				const Vertex_s vertices[3] = { Shape.Vertices[polyIdx * 3 + 0], Shape.Vertices[polyIdx * 3 + 1], Shape.Vertices[polyIdx * 3 + 2] };
+
+				const vec4 A = vertices[0].Position;
+				const vec4 B = vertices[1].Position;
+				const vec4 C = vertices[2].Position;
 
 				float U, V;
 				if (IntersectTriangle(Context.Ray.Origin, Context.Ray.Direction, A.xyz, B.xyz, C.xyz, U, V, TempPos))
 				{
+					Object_s Obj = Scene.Objects[ObjId];
 					RayResult_s Temp;
 
 					vec3 N = vec3(A.w, B.w, C.w);
@@ -99,8 +103,6 @@ void IntersectSceneBvh(inout Context_s Context, int RayType)
 					if (dot(N, Context.Ray.Direction) * Context.FaceCullingValue >= 0.0)
 #endif
 					{
-						Vertex_s vertices[3] = { Shape.Vertices[polyIdx * 3 + 0], Shape.Vertices[polyIdx * 3 + 1], Shape.Vertices[polyIdx * 3 + 2] };
-
 						TempPos = (Obj.Transform * vec4(TempPos, 1.0)).xyz;
 
 #if RAYTRACE_HAS_RESULT_POSITION

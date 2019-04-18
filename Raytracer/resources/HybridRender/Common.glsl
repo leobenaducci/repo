@@ -3,21 +3,21 @@
 
 uniform vec3 LightDir;
 
-vec3 CookTorrance_BRDF(vec3 N, vec3 L, vec3 V, vec3 BaseColor, float Metallic, float Roughness);
+vec3 CookTorrance_BRDF(vec3 N, vec3 L, vec3 V, vec3 BaseColor, float Metallic, float Roughness, float DiffFactor = 1.f, float SpecFactor = 1.f);
 
-vec3 CookTorrancePoint(vec3 Pos, vec3 CamPos, vec3 lPos, vec4 NormalMetallic, vec4 ColorRoughness)
+vec3 CookTorrancePoint(vec3 Pos, vec3 CamPos, vec3 lPos, vec4 NormalMetallic, vec4 ColorRoughness, float DiffFactor, float SpecFactor)
 {
 	vec3 EyeDir = normalize((CamPos - Pos) / 10000.0);
 	vec3 lDir = normalize(lPos - Pos);
 
-	return CookTorrance_BRDF(NormalMetallic.xyz, lDir, EyeDir, ColorRoughness.xyz, NormalMetallic.w, ColorRoughness.w);
+	return CookTorrance_BRDF(NormalMetallic.xyz, lDir, EyeDir, ColorRoughness.xyz, NormalMetallic.w, ColorRoughness.w, DiffFactor, SpecFactor);
 }
 
-vec3 CookTorranceDir(vec3 Pos, vec3 CamPos, vec4 NormalMetallic, vec4 ColorRoughness)
+vec3 CookTorranceDir(vec3 Pos, vec3 CamPos, vec4 NormalMetallic, vec4 ColorRoughness, float DiffFactor = 1.f, float SpecFactor = 1.f)
 {
 	vec3 EyeDir = normalize((CamPos - Pos) / 100.0);
 	
-	return CookTorrance_BRDF(NormalMetallic.xyz, -LightDir, EyeDir, ColorRoughness.xyz, NormalMetallic.w, ColorRoughness.w);
+	return CookTorrance_BRDF(NormalMetallic.xyz, -LightDir, EyeDir, ColorRoughness.xyz, NormalMetallic.w, ColorRoughness.w, DiffFactor, SpecFactor);
 }
 
 vec3 F_Schlick(vec3 SpecColor, float u)
@@ -52,9 +52,9 @@ float D_GGX(float NoH, float R)
 	return (R*R) / (PI*D*D);
 }
 
-vec3 CookTorrance_BRDF(vec3 N, vec3 L, vec3 V, vec3 BaseColor, float Metallic, float Roughness)
+vec3 CookTorrance_BRDF(vec3 N, vec3 L, vec3 V, vec3 BaseColor, float Metallic, float Roughness, float DiffFactor, float SpecFactor)
 {
-	vec3 SpecColor = mix(vec3(0.004), BaseColor, Metallic);
+	vec3 SpecColor = mix(vec3(0.04), BaseColor, Metallic);
 	vec3 H = normalize(V+L);
 
 	float D, G;
@@ -70,7 +70,7 @@ vec3 CookTorrance_BRDF(vec3 N, vec3 L, vec3 V, vec3 BaseColor, float Metallic, f
 	
 	Diff = (max(0.0, dot(N, L)) / PI);
 
-	return SpecColor * F * (D * G) + BaseColor * Diff * (1.0 - Metallic);
+	return SpecColor * F * (D * G) * SpecFactor + BaseColor * Diff * (1.0 - Metallic) * DiffFactor;
 }
 
 

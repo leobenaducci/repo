@@ -96,7 +96,7 @@ RecursiveRay_s ClosestHit(RecursiveRay_s Ray, RayResult_s Result, Material_s Mat
 			GDiffFactor = 1.f;
 			GSpecFactor = 1.f;
 
-			vec3 RandDir = rand3(iFrame * 16 + iSample * 1345);
+			vec3 RandDir = rand3(iFrame * 8 + iSample);
 			vec3 Dir = RandDir * sign(dot(RandDir, GNormal));
 			Dir = mix(Dir, reflect(Ray.Direction, GNormal) + RandDir * GRoughness, GMetallic);
 
@@ -164,7 +164,7 @@ void main()
 
 		for (iSample = 0; iSample < NumSamplesPerPixel; iSample++)
 		{
-			vec3 RandDir = rand3(iFrame + iSample * 65535);
+			vec3 RandDir = rand3(iFrame * 16 + iSample);
 			RandDir = RandDir * sign(dot(RandDir, WN));
 
 			GRoughness = GetRoughness(Roughness);

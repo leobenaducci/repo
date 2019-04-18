@@ -60,14 +60,15 @@ struct Object_s
 
 struct Vertex_s
 {
+	vec4 Position;
 	vec4 Normal;
 	vec4 TexCoord;
+	vec4 _Pad;
 };
 
 struct MeshShape_s
 {
 	BvhNode_s* BvhTree;
-	vec4* Triangles;
 	Vertex_s* Vertices;
 };
 
@@ -88,13 +89,13 @@ struct RayResult_s
 #if RAYTRACE_HAS_RESULT_POSITION
 	vec3 Pos;
 #endif
+	float Distance;
 #if RAYTRACE_HAS_RESULT_NORMAL
 	mediump vec3 Normal;
 #endif
 #if RAYTRACE_HAS_RESULT_MATERIAL
 	vec2 TexCoord;
 #endif
-    float Distance;
 };
 
 struct Context_s

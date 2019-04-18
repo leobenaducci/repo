@@ -17,12 +17,11 @@ float GRoughness;
 
 void Miss(RecursiveRay_s Ray, int RayType, inout Payload_s Payload)
 {
-	//vec3 Dir = (vec4(Ray.Direction, 0.0) * CubemapRotation).xyz;
-	//
-	//float theta = atan(Dir.z, Dir.x) + PI;
-	//vec4 col = textureLod(SkyBox2D, vec2(theta / (2 * PI), 1 - (Dir.y*0.5 + 0.5)), 8);
-	//Payload.Accum = col;
-	Payload.Accum = vec4(1.0);
+	vec3 Dir = (vec4(Ray.Direction, 0.0) * CubemapRotation).xyz;
+	
+	float theta = atan(Dir.z, Dir.x) + PI;
+	vec4 col = textureLod(SkyBox2D, vec2(theta / (2 * PI), 1 - (Dir.y*0.5 + 0.5)), 8);
+	Payload.Accum = col;
 }
 
 bool AnyHit(RecursiveRay_s Ray, RayResult_s Result, Material_s Material, int RayType, inout Payload_s Payload)
@@ -53,7 +52,11 @@ void main()
 	vec3 Output = vec3(0.0);
 	
 	GRoughness = ColorRoughness.w;
-	Output = Ray_Shadow(wPos + WN * Depth.x * 5, WN + rand3(iFrame) * 0.95, 0, 8).Accum.xyz;
+
+	vec3 RayDir = WN + rand3(iFrame) * 0.95;
+	Output = CookTorranceDir(-RayDir, Eye, CameraPos, vec4(WN.xyz, NormalMetallic.w), ColorRoughness, 1.f, 0.f);
+
+	Output *= Ray_Shadow(wPos + WN * Depth.x * 15, RayDir).Accum.xyz * ColorRoughness.xyz;
 
 	imageStore(OutputBuffer, FragCoord, vec4(Output, 1.0));
 }
