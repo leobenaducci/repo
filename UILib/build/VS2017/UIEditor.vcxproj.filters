@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{a7b81529-b885-40fe-aaad-c43a7c99ac14}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{1ae0e9d9-a162-4652-92d9-97a0776e2df8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{adce84c4-2f78-43a0-901e-ff405d759267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{9a039153-5850-4d3c-8d04-5f7ecd0c0dba}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\UILib\dummy.cpp" />
+    <ClCompile Include="..\..\source\UILib\Core\FileStream.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\UILib\Core\Serializer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\UILib\Platform\PlatformWindows.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\UILib\Render\RenderOGL.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\UILib\Core\FileStream.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Serializer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\IStreams.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Platform.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\UILib\Platform\PlatformWindows.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Render.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\UILib\Render\RenderOGL.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
