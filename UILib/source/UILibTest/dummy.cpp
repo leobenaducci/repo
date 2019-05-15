@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {
-	UI_WINDOW_CREATION_PARAMS Params;
+	WINDOW_CREATION_PARAMS Params;
 	Params.Title = "Main";
 	Params.X = 800;
 	Params.Y = 600;

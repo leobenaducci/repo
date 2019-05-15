@@ -46,7 +46,7 @@ PlatformWindows::~PlatformWindows()
 {
 }
 
-IWindow* PlatformWindows::NewWindow(struct UI_WINDOW_CREATION_PARAMS& Params)
+IWindow* PlatformWindows::NewWindow(struct WINDOW_CREATION_PARAMS& Params)
 {
 	DWORD dwStyle = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
 

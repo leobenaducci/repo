@@ -11,7 +11,7 @@ public:
 	PlatformWindows();
 	virtual ~PlatformWindows();
 
-	virtual IWindow* NewWindow(struct UI_WINDOW_CREATION_PARAMS&) override;
+	virtual IWindow* NewWindow(struct WINDOW_CREATION_PARAMS&) override;
 	virtual bool DestroyWindow(IWindow*) override;
 	
 	virtual void Tick() override;
