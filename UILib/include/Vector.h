@@ -1,4 +1,4 @@
-
+#pragma once
 namespace Detail
 {
 	template<typename T, int N>
@@ -17,12 +17,12 @@ namespace Detail
 		template<int NN>
 		explicit VectorT(const VectorT<T, NN> a) { for (int i = 0; i < N; i++) Set(i, a.Get(i)); }
 
-		VectorT<T, N>& operator +(const VectorT<T, N> a) { return *this = Op([&](int i) { return v[i] + a.v[i]; }); }
-		VectorT<T, N>& operator -(const VectorT<T, N> a) { return *this = Op([&](int i) { return v[i] - a.v[i]; }); }
-		VectorT<T, N>& operator *(const VectorT<T, N> a) { return *this = Op([&](int i) { return v[i] * a.v[i]; }); }
-		VectorT<T, N>& operator *(const T a) { return *this = Op([&](int i) { return v[i] * a; }); }
-		VectorT<T, N>& operator /(const VectorT<T, N> a) { return *this = Op([&](int i) { return v[i] / a.v[i]; }); }
-		VectorT<T, N>& operator /(const T a) { return *this = Op([&](int i) { return v[i] / a; }); }
+		VectorT<T, N> operator +(const VectorT<T, N> a) const { return Op([&](int i) { return v[i] + a.v[i]; }); }
+		VectorT<T, N> operator -(const VectorT<T, N> a) const { return Op([&](int i) { return v[i] - a.v[i]; }); }
+		VectorT<T, N> operator *(const VectorT<T, N> a) const { return Op([&](int i) { return v[i] * a.v[i]; }); }
+		VectorT<T, N> operator *(const T a) const { return Op([&](int i) { return v[i] * a; }); }
+		VectorT<T, N> operator /(const VectorT<T, N> a) const { return Op([&](int i) { return v[i] / a.v[i]; }); }
+		VectorT<T, N> operator /(const T a) const { return Op([&](int i) { return v[i] / a; }); }
 
 		void operator +=(const VectorT<T, N> a) { *this = *this + a; }
 		void operator -=(const VectorT<T, N> a) { *this = *this - a; }

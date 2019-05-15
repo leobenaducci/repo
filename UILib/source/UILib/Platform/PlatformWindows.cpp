@@ -12,8 +12,6 @@ namespace
 	std::vector<WindowWindows*> Windows;
 }
 
-static LRESULT WndProc(HWND, UINT, WPARAM, LPARAM);
-
 bool PlatformWindows::SupportsMultipleWindows() const
 {
 	return true;
@@ -99,7 +97,7 @@ void PlatformWindows::Tick()
 	}
 }
 
-static LRESULT WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+LRESULT PlatformWindows::WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (Msg)
 	{

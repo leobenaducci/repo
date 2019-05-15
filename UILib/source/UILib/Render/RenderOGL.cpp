@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <gl/GL.h>
 #include "RenderOGL.h"
+#include "Vector.h"
 
 #include "../Platform/PlatformWindows.h"
 
@@ -19,8 +20,17 @@ namespace
 	std::map<IWindow*, OGL_WINDOW_DATA> Windows;
 }
 
+IRender& GetRender()
+{
+	static RenderOGL Render;
+	return Render;
+}
+
 void RenderOGL::OnWindowCreated(IWindow* pWindow)
 {
+	Vector2 a(0), b(1);
+	Vector2 c = a + b;
+
 	WindowWindows* pWin = (WindowWindows*)pWindow;
 
 	OGL_WINDOW_DATA Data;
@@ -47,6 +57,8 @@ void RenderOGL::OnWindowCreated(IWindow* pWindow)
 
 void RenderOGL::OnWindowDestroyed(IWindow* pWindow)
 {
+	OGL_WINDOW_DATA& Data = Windows[pWindow];
+	wglDeleteContext(Data.hRC);
 	Windows.erase(pWindow);
 }
 
@@ -56,13 +68,38 @@ void RenderOGL::PaintWindow(IWindow* pWindow)
 	wglMakeCurrent(Data.hDC, Data.hRC);
 
 	glClear(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_SCISSOR_TEST);
 	SwapBuffers(Data.hDC);
 
 	wglMakeCurrent(nullptr, nullptr);
 }
 
-IRender& GetRender()
+void RenderOGL::DrawLine(const Vector2& Start, const Vector2& End, const Vector4& Color)
 {
-	static RenderOGL Render;
-	return Render;
+	glBegin(GL_LINES);
+	glColor4fv(Color.v);
+	glVertex2fv(Start.v);
+	glVertex2fv(End.v);
+	glEnd();
 }
+
+void RenderOGL::DrawRect(const Vector2& Pos, const Vector2& Size, const Image& Image, const Vector4& Color)
+{
+	glBegin(GL_QUADS);
+	glColor4fv(Color.v);
+	glVertex2fv((Pos + Vector2(0,0)).v);
+	glVertex2fv((Pos + Vector2(Size.x(), 0)).v);
+	glVertex2fv((Pos + Vector2(0, Size.y())).v);
+	glVertex2fv((Pos + Vector2(Size.x(), Size.y())).v);
+	glEnd();
+}
+
+void RenderOGL::DrawString(const Vector2& Pos, const Font& Font, wchar_t* Text)
+{
+}
+
+void RenderOGL::SetClipRect(const Vector2& Min, const Vector2& Max)
+{
+	glScissor((size_t)Min.x(), (size_t)Min.y(), (size_t)Max.x() - (size_t)Min.x(), (size_t)Max.y() - (size_t)Min.y());
+}
+

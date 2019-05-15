@@ -15,6 +15,9 @@ public:
 	virtual bool DestroyWindow(IWindow*) override;
 	
 	virtual void Tick() override;
+
+private:
+	static LRESULT WndProc(HWND, UINT, WPARAM, LPARAM);
 };
 
 class WindowWindows : public IWindow
