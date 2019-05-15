@@ -57,5 +57,8 @@
     <ClInclude Include="..\..\include\Vector.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\RenderContext.h">
+      <Filter>Render</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

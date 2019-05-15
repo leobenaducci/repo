@@ -22,6 +22,7 @@
     <ClInclude Include="..\..\include\IStreams.h" />
     <ClInclude Include="..\..\include\Platform.h" />
     <ClInclude Include="..\..\include\Render.h" />
+    <ClInclude Include="..\..\include\RenderContext.h" />
     <ClInclude Include="..\..\include\Serializer.h" />
     <ClInclude Include="..\..\include\Vector.h" />
     <ClInclude Include="..\..\include\Widget.h" />
