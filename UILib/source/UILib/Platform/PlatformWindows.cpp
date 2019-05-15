@@ -33,7 +33,7 @@ PlatformWindows::PlatformWindows()
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetModuleHandle(nullptr);
-	wc.hIcon = LoadIcon((HINSTANCE)NULL, IDI_APPLICATION);
+	wc.hIcon = nullptr;
 	wc.hCursor = LoadCursor((HINSTANCE)NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)(COLOR_BACKGROUND);
 	wc.lpszMenuName = "";
@@ -48,7 +48,7 @@ PlatformWindows::~PlatformWindows()
 
 IWindow* PlatformWindows::NewWindow(struct UI_WINDOW_CREATION_PARAMS& Params)
 {
-	DWORD dwStyle = WS_OVERLAPPEDWINDOW;
+	DWORD dwStyle = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
 
 	HWND NewHWND = CreateWindowA(WindowClassName, Params.Title, dwStyle,
 								0, 0, Params.Width, Params.Height, 
@@ -57,12 +57,10 @@ IWindow* PlatformWindows::NewWindow(struct UI_WINDOW_CREATION_PARAMS& Params)
 
 	if (NewHWND == nullptr)
 		return nullptr;
-
+	
 	WindowWindows* NewWin = new WindowWindows();
 	NewWin->Handle = NewHWND;
 	Windows.push_back(NewWin);
-
-	ShowWindow(NewHWND, SW_SHOWDEFAULT);
 
 	GetRender().OnWindowCreated(NewWin);
 

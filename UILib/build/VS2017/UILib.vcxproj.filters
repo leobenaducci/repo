@@ -10,6 +10,9 @@
     <Filter Include="Render">
       <UniqueIdentifier>{9a039153-5850-4d3c-8d04-5f7ecd0c0dba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{9156d476-3434-4261-9c48-b54ed69ba84c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\UILib\dummy.cpp" />
@@ -47,6 +50,12 @@
     </ClInclude>
     <ClInclude Include="..\..\source\UILib\Render\RenderOGL.h">
       <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Widget.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Vector.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
