@@ -26,8 +26,10 @@ void Widget::SetPosition(Vector2 NewPosition)
 
 void Widget::SetSize(Vector2 NewSize)
 {
+	Parent->UpdatePositionAndSize();
+
 	Size = NewSize;
-	OffsetBottomRight = Canvas->GetSize() - (OffsetTopLeft + NewSize);
+	OffsetBottomRight = OffsetTopLeft - Canvas->GetSize();
 }
 
 void Widget::SetOffsets(Vector2 TopLeft, Vector2 BottomRight)

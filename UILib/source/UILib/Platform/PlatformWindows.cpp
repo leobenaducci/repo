@@ -27,7 +27,7 @@ PlatformWindows::PlatformWindows()
 	: IPlatform()
 {
 	WNDCLASSA wc;
-	wc.style = CS_HREDRAW | CS_VREDRAW | CS_CLASSDC;
+	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wc.lpfnWndProc = (WNDPROC)WndProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
