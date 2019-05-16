@@ -1,8 +1,8 @@
 #include "Vector.h"
 
 class IWindow;
-class Image;
-class Font;
+class Image {};
+class Font {};
 
 class IRender
 {

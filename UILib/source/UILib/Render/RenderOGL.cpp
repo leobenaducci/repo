@@ -5,6 +5,7 @@
 #include "Vector.h"
 
 #include "../Platform/PlatformWindows.h"
+#include "Widget.h"
 
 #include <map>
 
@@ -62,13 +63,39 @@ void RenderOGL::OnWindowDestroyed(IWindow* pWindow)
 	Windows.erase(pWindow);
 }
 
+static void DrawWidget(Widget* pWidget)
+{
+	pWidget->UpdatePositionAndSize();
+	pWidget->Render();
+
+	glPushMatrix();
+	glTranslatef(pWidget->GetPosition().x(), pWidget->GetPosition().y(), -1);
+
+	for (auto it : pWidget->GetChilds())
+	{
+		DrawWidget(it);
+	}
+
+	glPopMatrix();
+}
+
 void RenderOGL::PaintWindow(IWindow* pWindow)
 {
 	OGL_WINDOW_DATA& Data = Windows[pWindow];
 	wglMakeCurrent(Data.hDC, Data.hRC);
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	glEnable(GL_SCISSOR_TEST);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glViewport(0, 0, (GLsizei)pWindow->GetSize().x(), (GLsizei)pWindow->GetSize().y());
+	glOrtho(0, pWindow->GetSize().x(), pWindow->GetSize().y(), 0, -1000, 1000);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	DrawWidget(pWindow->GetCanvas());
+
 	SwapBuffers(Data.hDC);
 
 	wglMakeCurrent(nullptr, nullptr);
@@ -89,8 +116,8 @@ void RenderOGL::DrawRect(const Vector2& Pos, const Vector2& Size, const Image& I
 	glColor4fv(Color.v);
 	glVertex2fv((Pos + Vector2(0,0)).v);
 	glVertex2fv((Pos + Vector2(Size.x(), 0)).v);
-	glVertex2fv((Pos + Vector2(0, Size.y())).v);
 	glVertex2fv((Pos + Vector2(Size.x(), Size.y())).v);
+	glVertex2fv((Pos + Vector2(0, Size.y())).v);
 	glEnd();
 }
 

@@ -26,4 +26,9 @@ public:
 	void* Handle;
 
 	WindowWindows() : Handle(nullptr) {}
+
+	virtual Vector2 GetPosition() const override;
+	virtual Vector2 GetSize() const override;
+
+	friend class PlatformWindows;
 };

@@ -34,13 +34,13 @@ namespace Detail
 		T Dot(const VectorT<T, N> a) const { T r = 0; for (int i = 0; i < N; i++) r += v[i] * a.v[i]; return r; }
 
 		T& x() { return v[0]; }
-		const T& x() const { return v[0]; }
-		T& y() { return N > 1 ? v[1] : 0; }
-		const T& y() const { return N > 1 ? v[1] : 0; }
-		T& z() { return N > 2 ? v[2] : 0; }
-		const T& z() const { return N > 2 ? v[2] : 0; }
-		T& w() { return N > 3 ? v[3] : 0; }
-		const T& w() const { return N > 3 ? v[3] : 0; }
+		const T x() const { return v[0]; }
+		T& y() { return N > 1 ? v[1] : v[0]; }
+		const T y() const { return N > 1 ? v[1] : 0; }
+		T& z() { return N > 2 ? v[2] : v[0]; }
+		const T z() const { return N > 2 ? v[2] : 0; }
+		T& w() { return N > 3 ? v[3] : v[0]; }
+		const T w() const { return N > 3 ? v[3] : 0; }
 
 		T& operator[](int i) { static_assert(i < N); return v[i]; }
 		const T& operator[](int i) const { static_assert(i < N); return v[i]; }

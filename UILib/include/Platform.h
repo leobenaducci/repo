@@ -1,3 +1,4 @@
+#include "ICanvas.h"
 
 struct WINDOW_CREATION_PARAMS
 {
@@ -9,8 +10,13 @@ struct WINDOW_CREATION_PARAMS
 	class IWindow* Parent = nullptr;
 };
 
-class IWindow
+class IWindow : public ICanvas
 {
+public:
+	class Widget* GetCanvas() const { return Canvas; }
+
+protected:
+	class Widget* Canvas = nullptr;
 };
 
 class IPlatform

@@ -1,5 +1,6 @@
 
 #include <Windows.h>
+#include "Widget.h"
 #include "PlatformWindows.h"
 #include "Render.h"
 
@@ -58,6 +59,9 @@ IWindow* PlatformWindows::NewWindow(struct WINDOW_CREATION_PARAMS& Params)
 	
 	WindowWindows* NewWin = new WindowWindows();
 	NewWin->Handle = NewHWND;
+	NewWin->Canvas = new Widget();
+	NewWin->Canvas->Canvas = NewWin;
+	NewWin->Canvas->SetAnchors(EAnchor::All);
 	Windows.push_back(NewWin);
 
 	GetRender().OnWindowCreated(NewWin);
@@ -111,6 +115,22 @@ LRESULT PlatformWindows::WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 	}
 
 	return DefWindowProcA(hWnd, Msg, wParam, lParam);
+}
+
+Vector2 WindowWindows::GetPosition() const
+{
+	RECT rect;
+	GetWindowRect((HWND)Handle, &rect);
+
+	return Vector2((float)rect.left, (float)rect.top);
+}
+
+Vector2 WindowWindows::GetSize() const
+{
+	RECT rect;
+	GetWindowRect((HWND)Handle, &rect);
+
+	return Vector2((float)(rect.right - rect.left), (float)(rect.bottom - rect.top));
 }
 
 IPlatform& GetPlatform()

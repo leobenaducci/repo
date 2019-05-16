@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\ICanvas.h" />
     <ClInclude Include="..\..\include\IStreams.h" />
     <ClInclude Include="..\..\include\Platform.h" />
     <ClInclude Include="..\..\include\Render.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="..\..\source\UILib\Render\RenderOGL.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\include\Widget.cpp" />
     <ClCompile Include="..\..\source\UILib\Core\FileStream.cpp" />
     <ClCompile Include="..\..\source\UILib\Core\Serializer.cpp" />
     <ClCompile Include="..\..\source\UILib\dummy.cpp" />
