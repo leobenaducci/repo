@@ -42,9 +42,7 @@ public:
 		return Child;
 	}
 
-
-	void OnSizeChanged();
-
+	virtual void OnSizeChanged();
 	virtual void Render();
 
 	Vector4 Color = Vector4(1,1,1,1);

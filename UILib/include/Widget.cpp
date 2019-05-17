@@ -105,8 +105,6 @@ void Widget::UpdatePositionAndSize()
 
 void Widget::OnSizeChanged()
 {
-	UpdatePositionAndSize();
-
 	for (auto it : Childs)
 		it->OnSizeChanged();
 }

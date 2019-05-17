@@ -24,8 +24,9 @@ class WindowWindows : public IWindow
 {
 public:
 	void* Handle;
+	IWindow* Parent;
 
-	WindowWindows() : Handle(nullptr) {}
+	WindowWindows() : Handle(nullptr), Parent(nullptr) {}
 
 	virtual Vector2 GetPosition() const override;
 	virtual Vector2 GetSize() const override;

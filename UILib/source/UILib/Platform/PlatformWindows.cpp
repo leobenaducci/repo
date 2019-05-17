@@ -59,6 +59,7 @@ IWindow* PlatformWindows::NewWindow(struct WINDOW_CREATION_PARAMS& Params)
 	
 	WindowWindows* NewWin = new WindowWindows();
 	NewWin->Handle = NewHWND;
+	NewWin->Parent = Params.Parent;
 	NewWin->Canvas = new Widget();
 	NewWin->Canvas->Canvas = NewWin;
 	NewWin->Canvas->SetAnchors(EAnchor::All);
@@ -80,8 +81,25 @@ bool PlatformWindows::DestroyWindow(IWindow* pWindow)
 			GetRender().OnWindowDestroyed(pWindow);
 
 			Windows.erase(It);
-			return ::DestroyWindow((HWND)((WindowWindows*)pWindow)->Handle);
+			if (!::DestroyWindow((HWND)((WindowWindows*)pWindow)->Handle))
+			{
+				return false;
+			}
 		}
+
+		auto WindowsCopy = Windows;
+		for (auto It : WindowsCopy)
+		{
+			if (It->Parent == pWindow)
+			{
+				if (!DestroyWindow(It))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 	return false;
 }
