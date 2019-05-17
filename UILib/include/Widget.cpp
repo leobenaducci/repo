@@ -4,6 +4,10 @@
 #include "Vector.h"
 #include <vector>
 
+Widget::~Widget()
+{
+}
+
 Vector2 Widget::GetPosition() const
 {
 	return CachedPosition + Canvas->GetPosition();
@@ -14,9 +18,15 @@ Vector2 Widget::GetSize() const
 	return CachedSize;
 }
 
-const std::vector<Widget*>& Widget::GetChilds() const
+std::vector<Widget*> Widget::GetChilds() const
 {
-	return Childs;
+	std::vector<Widget*> Result;
+	for (auto& It : Childs)
+	{
+		Result.push_back(It.get());
+	}
+
+	return std::move(Result);
 }
 
 void Widget::SetPosition(Vector2 NewPosition)
@@ -105,7 +115,7 @@ void Widget::UpdatePositionAndSize()
 
 void Widget::OnSizeChanged()
 {
-	for (auto it : Childs)
+	for (auto& it : Childs)
 		it->OnSizeChanged();
 }
 

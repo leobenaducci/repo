@@ -1,4 +1,5 @@
 #include "ICanvas.h"
+#include <memory>
 
 struct WINDOW_CREATION_PARAMS
 {
@@ -13,10 +14,10 @@ struct WINDOW_CREATION_PARAMS
 class IWindow : public ICanvas
 {
 public:
-	class Widget* GetCanvas() const { return Canvas; }
+	class Widget* GetCanvas() const { return Canvas.get(); }
 
 protected:
-	class Widget* Canvas = nullptr;
+	class std::unique_ptr<Widget> Canvas;
 };
 
 class IPlatform

@@ -1,6 +1,7 @@
 #include "ICanvas.h"
 #include "Vector.h"
 #include <vector>
+#include <memory>
 
 namespace EAnchor
 {
@@ -19,9 +20,11 @@ namespace EAnchor
 class Widget : public ICanvas
 {
 public:
+	virtual ~Widget();
+
 	virtual Vector2 GetPosition() const override;
 	virtual Vector2 GetSize() const override;
-	const std::vector<Widget*>& GetChilds() const;
+	std::vector<Widget*> GetChilds() const;
 
 	void SetPosition(Vector2 NewPosition);
 	void SetSize(Vector2 NewSize);
@@ -35,11 +38,11 @@ public:
 	template<typename T>
 	Widget* AddChild()
 	{
-		Widget* Child = new T();
+		auto&& Child = std::make_unique<T>();
 		Child->Canvas = this;
 		Child->Parent = this;
-		Childs.push_back(Child);
-		return Child;
+		Childs.push_back(std::move(Child));
+		return Childs.back().get();
 	}
 
 	virtual void OnSizeChanged();
@@ -62,6 +65,6 @@ protected:
 
 	unsigned int Anchors = EAnchor::Left | EAnchor::Top;
 
-	std::vector<Widget*> Childs;
+	std::vector<std::unique_ptr<Widget>> Childs;
 };
 

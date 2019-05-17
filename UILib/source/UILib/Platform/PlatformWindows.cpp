@@ -60,7 +60,7 @@ IWindow* PlatformWindows::NewWindow(struct WINDOW_CREATION_PARAMS& Params)
 	WindowWindows* NewWin = new WindowWindows();
 	NewWin->Handle = NewHWND;
 	NewWin->Parent = Params.Parent;
-	NewWin->Canvas = new Widget();
+	NewWin->Canvas = std::move(std::make_unique<Widget>());
 	NewWin->Canvas->Canvas = NewWin;
 	NewWin->Canvas->SetAnchors(EAnchor::All);
 	NewWin->Canvas->SetPivot(Vector2(0.f));
@@ -75,18 +75,6 @@ bool PlatformWindows::DestroyWindow(IWindow* pWindow)
 {
 	if (pWindow)
 	{
-		auto It = std::find(Windows.begin(), Windows.end(), pWindow);
-		if (It != Windows.end())
-		{
-			GetRender().OnWindowDestroyed(pWindow);
-
-			Windows.erase(It);
-			if (!::DestroyWindow((HWND)((WindowWindows*)pWindow)->Handle))
-			{
-				return false;
-			}
-		}
-
 		auto WindowsCopy = Windows;
 		for (auto It : WindowsCopy)
 		{
@@ -97,6 +85,19 @@ bool PlatformWindows::DestroyWindow(IWindow* pWindow)
 					return false;
 				}
 			}
+		}
+
+		auto It = std::find(Windows.begin(), Windows.end(), pWindow);
+		if (It != Windows.end())
+		{
+			GetRender().OnWindowDestroyed(pWindow);
+
+			Windows.erase(It);
+			if (!::DestroyWindow((HWND)((WindowWindows*)pWindow)->Handle))
+			{
+				return false;
+			}
+			delete pWindow;
 		}
 
 		return true;
@@ -115,7 +116,10 @@ void PlatformWindows::Tick()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+	}
 
+	for (auto WinIt : Windows)
+	{
 		GetRender().PaintWindow(WinIt);
 	}
 }
