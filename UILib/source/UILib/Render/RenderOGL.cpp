@@ -68,15 +68,10 @@ static void DrawWidget(Widget* pWidget)
 	pWidget->UpdatePositionAndSize();
 	pWidget->Render();
 
-	glPushMatrix();
-	glTranslatef(pWidget->GetPosition().x(), pWidget->GetPosition().y(), -1);
-
 	for (auto it : pWidget->GetChilds())
 	{
 		DrawWidget(it);
 	}
-
-	glPopMatrix();
 }
 
 void RenderOGL::PaintWindow(IWindow* pWindow)

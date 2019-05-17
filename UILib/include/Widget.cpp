@@ -6,7 +6,7 @@
 
 Vector2 Widget::GetPosition() const
 {
-	return CachedPosition;
+	return CachedPosition + Canvas->GetPosition();
 }
 
 Vector2 Widget::GetSize() const
@@ -21,7 +21,12 @@ const std::vector<Widget*>& Widget::GetChilds() const
 
 void Widget::SetPosition(Vector2 NewPosition)
 {
-	OffsetTopLeft = NewPosition;
+	Parent->UpdatePositionAndSize();
+
+	Position = NewPosition;
+
+	OffsetTopLeft = Position - Size * Pivot;
+	OffsetBottomRight = Position + Size * (Vector2(1.f) - Pivot) - Canvas->GetSize();
 }
 
 void Widget::SetSize(Vector2 NewSize)
@@ -29,14 +34,25 @@ void Widget::SetSize(Vector2 NewSize)
 	Parent->UpdatePositionAndSize();
 
 	Size = NewSize;
-	OffsetBottomRight = OffsetTopLeft - Canvas->GetSize();
+
+	OffsetTopLeft = Position - Size * Pivot;
+	OffsetBottomRight = Position + Size * (Vector2(1.f) - Pivot) - Canvas->GetSize();
 }
 
 void Widget::SetOffsets(Vector2 TopLeft, Vector2 BottomRight)
 {
+	Parent->UpdatePositionAndSize();
+
 	OffsetTopLeft = TopLeft;
 	OffsetBottomRight = BottomRight;
-	Size = OffsetBottomRight - OffsetTopLeft;
+
+	Position = TopLeft * (Vector2(1.f) - Pivot) + BottomRight * Pivot;
+	Size = BottomRight - TopLeft;
+}
+
+void Widget::SetPivot(Vector2 NewPivot)
+{
+	Pivot = NewPivot;
 }
 
 void Widget::SetAnchors(unsigned int NewAnchors)
@@ -49,7 +65,7 @@ void Widget::UpdatePositionAndSize()
 	if (Anchors & EAnchor::Left && Anchors & EAnchor::Right)
 	{
 		CachedPosition.x() = OffsetTopLeft.x();
-		CachedSize.x() = Canvas->GetSize().x() + (OffsetBottomRight.x() - OffsetTopLeft.x());
+		CachedSize.x() = (Canvas->GetSize().x() + OffsetBottomRight.x()) - OffsetTopLeft.x();
 	}
 	else if (Anchors & EAnchor::Left)
 	{
@@ -63,13 +79,13 @@ void Widget::UpdatePositionAndSize()
 	}
 	else
 	{
-		CachedPosition.x() = (Canvas->GetPosition().x() + Canvas->GetSize().x()) * 0.5f + OffsetTopLeft.x() - Size.x() * 0.5f;
+		CachedPosition.x() = (Canvas->GetPosition().x() + Canvas->GetSize().x()) * 0.5f + OffsetTopLeft.x();
 	}
 
 	if (Anchors & EAnchor::Top && Anchors & EAnchor::Bottom)
 	{
 		CachedPosition.y() = OffsetTopLeft.y();
-		CachedSize.y() = Canvas->GetSize().y() + (OffsetBottomRight.y() - OffsetTopLeft.y());
+		CachedSize.y() = (Canvas->GetSize().y() + OffsetBottomRight.y()) - OffsetTopLeft.y();
 	}
 	else if (Anchors & EAnchor::Top)
 	{
@@ -83,7 +99,7 @@ void Widget::UpdatePositionAndSize()
 	}
 	else
 	{
-		CachedPosition.y() = (Canvas->GetPosition().y() + Canvas->GetSize().y()) * 0.5f + OffsetTopLeft.y() - Size.y() * 0.5f;
+		CachedPosition.y() = (Canvas->GetPosition().y() + Canvas->GetSize().y()) * 0.5f + OffsetTopLeft.y();
 	}
 }
 

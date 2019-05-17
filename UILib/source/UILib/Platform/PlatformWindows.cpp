@@ -62,6 +62,7 @@ IWindow* PlatformWindows::NewWindow(struct WINDOW_CREATION_PARAMS& Params)
 	NewWin->Canvas = new Widget();
 	NewWin->Canvas->Canvas = NewWin;
 	NewWin->Canvas->SetAnchors(EAnchor::All);
+	NewWin->Canvas->SetPivot(Vector2(0.f));
 	Windows.push_back(NewWin);
 
 	GetRender().OnWindowCreated(NewWin);
@@ -119,10 +120,7 @@ LRESULT PlatformWindows::WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 
 Vector2 WindowWindows::GetPosition() const
 {
-	RECT rect;
-	GetWindowRect((HWND)Handle, &rect);
-
-	return Vector2((float)rect.left, (float)rect.top);
+	return Vector2(0.f);
 }
 
 Vector2 WindowWindows::GetSize() const

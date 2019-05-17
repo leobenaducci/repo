@@ -26,6 +26,7 @@ public:
 	void SetPosition(Vector2 NewPosition);
 	void SetSize(Vector2 NewSize);
 	void SetOffsets(Vector2 TopLeft, Vector2 BottomRight);
+	void SetPivot(Vector2 NewPivot);
 
 	void SetAnchors(unsigned int NewAnchors);
 
@@ -54,7 +55,9 @@ public:
 protected:
 	Vector2 OffsetTopLeft = Vector2(0.f);
 	Vector2 OffsetBottomRight = Vector2(0.f);
+	Vector2 Position = Vector2(0.f);
 	Vector2 Size = Vector2(0.f);
+	Vector2 Pivot = Vector2(0.5f);
 
 	Vector2 CachedPosition = Vector2(0.f);
 	Vector2 CachedSize = Vector2(0.f);
