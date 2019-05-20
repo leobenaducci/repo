@@ -64,6 +64,7 @@ IWindow* PlatformWindows::NewWindow(struct WINDOW_CREATION_PARAMS& Params)
 	NewWin->Canvas->Canvas = NewWin;
 	NewWin->Canvas->SetAnchors(EAnchor::All);
 	NewWin->Canvas->SetPivot(Vector2(0.f));
+	NewWin->Canvas->SetSize(NewWin->GetSize());
 	Windows.push_back(NewWin);
 
 	GetRender().OnWindowCreated(NewWin);
@@ -134,6 +135,14 @@ LRESULT PlatformWindows::WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 		if (It != Windows.end())
 			GetPlatform().DestroyWindow(*It);
 		break;
+	}
+	case WM_SIZE:
+	{
+		auto It = std::find_if(Windows.begin(), Windows.end(), [hWnd](WindowWindows* A) { return A->Handle == (void*)hWnd; });
+		if (It != Windows.end())
+		{
+			(*It)->Canvas->SetSize((*It)->GetSize());
+		}
 	}
 	}
 

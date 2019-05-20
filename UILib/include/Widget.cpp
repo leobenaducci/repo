@@ -31,33 +31,33 @@ std::vector<Widget*> Widget::GetChilds() const
 
 void Widget::SetPosition(Vector2 NewPosition)
 {
-	Parent->UpdatePositionAndSize();
-
 	Position = NewPosition;
 
-	OffsetTopLeft = Position - Size * Pivot;
-	OffsetBottomRight = Position + Size * (Vector2(1.f) - Pivot) - Canvas->GetSize();
+	if (Parent)
+	{
+		Parent->UpdatePositionAndSize();
+
+		OffsetTopLeft = Position - Size * Pivot;
+		OffsetBottomRight = Position + Size * (Vector2(1.f) - Pivot) - Canvas->GetSize();
+	}
 }
 
 void Widget::SetSize(Vector2 NewSize)
 {
-	Parent->UpdatePositionAndSize();
-
 	Size = NewSize;
 
-	OffsetTopLeft = Position - Size * Pivot;
-	OffsetBottomRight = Position + Size * (Vector2(1.f) - Pivot) - Canvas->GetSize();
+	if (Parent)
+	{
+		Parent->UpdatePositionAndSize();
+
+		OffsetTopLeft = Position - Size * Pivot;
+		OffsetBottomRight = Position + Size * (Vector2(1.f) - Pivot) - Canvas->GetSize();
+	}
 }
 
 void Widget::SetOffsets(Vector2 TopLeft, Vector2 BottomRight)
 {
 	Parent->UpdatePositionAndSize();
-
-	OffsetTopLeft = TopLeft;
-	OffsetBottomRight = BottomRight;
-
-	Position = TopLeft * (Vector2(1.f) - Pivot) + BottomRight * Pivot;
-	Size = BottomRight - TopLeft;
 }
 
 void Widget::SetPivot(Vector2 NewPivot)
@@ -84,12 +84,13 @@ void Widget::UpdatePositionAndSize()
 	}
 	else if (Anchors & EAnchor::Right)
 	{
-		CachedPosition.x() = Canvas->GetSize().x() + OffsetBottomRight.x();
+		CachedPosition.x() = Canvas->GetSize().x() + OffsetTopLeft.x();
 		CachedSize.x() = Size.x();
 	}
 	else
 	{
-		CachedPosition.x() = (Canvas->GetPosition().x() + Canvas->GetSize().x()) * 0.5f + OffsetTopLeft.x();
+		CachedPosition.x() = (Canvas->GetPosition().x() - Size.x() * Pivot.x()) + Canvas->GetSize().x() * 0.5f;
+		CachedSize.x() = Size.x();
 	}
 
 	if (Anchors & EAnchor::Top && Anchors & EAnchor::Bottom)
@@ -104,12 +105,13 @@ void Widget::UpdatePositionAndSize()
 	}
 	else if (Anchors & EAnchor::Bottom)
 	{
-		CachedPosition.y() = Canvas->GetSize().y() + OffsetBottomRight.y();
+		CachedPosition.y() = Canvas->GetSize().y() + OffsetTopLeft.y();
 		CachedSize.y() = Size.y();
 	}
 	else
 	{
-		CachedPosition.y() = (Canvas->GetPosition().y() + Canvas->GetSize().y()) * 0.5f + OffsetTopLeft.y();
+		CachedPosition.y() = (Canvas->GetPosition().y() - Size.y() * Pivot.y() + Canvas->GetSize().y() * 0.5f);
+		CachedSize.y() = Size.y();
 	}
 }
 
