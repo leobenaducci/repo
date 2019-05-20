@@ -1,5 +1,6 @@
 
 #include <Windows.h>
+#include <windowsx.h>
 #include "Widget.h"
 #include "PlatformWindows.h"
 #include "Render.h"
@@ -144,6 +145,36 @@ LRESULT PlatformWindows::WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 		{
 			(*It)->Canvas->SetSize((*It)->GetSize());
 		}
+		break;
+	}
+	case WM_LBUTTONDOWN:
+	{
+		auto It = std::find_if(Windows.begin(), Windows.end(), [hWnd](WindowWindows* A) { return A->Handle == (void*)hWnd; });
+		if (It != Windows.end())
+		{
+			(*It)->Canvas->OnMousePressed(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0);
+		}
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		auto It = std::find_if(Windows.begin(), Windows.end(), [hWnd](WindowWindows* A) { return A->Handle == (void*)hWnd; });
+		if (It != Windows.end())
+		{
+			(*It)->Canvas->OnMouseReleased(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), 0);
+		}
+		break;
+	}
+	case WM_MOUSEMOVE:
+	{
+		auto It = std::find_if(Windows.begin(), Windows.end(), [hWnd](WindowWindows* A) { return A->Handle == (void*)hWnd; });
+		if (It != Windows.end())
+		{
+			(*It)->Canvas->OnMouseMoved((*It)->LastMouseX, (*It)->LastMouseY, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			(*It)->LastMouseX = GET_X_LPARAM(lParam);
+			(*It)->LastMouseY = GET_Y_LPARAM(lParam);
+		}
+		break;
 	}
 	}
 
@@ -158,7 +189,7 @@ Vector2 WindowWindows::GetPosition() const
 Vector2 WindowWindows::GetSize() const
 {
 	RECT rect;
-	GetWindowRect((HWND)Handle, &rect);
+	GetClientRect((HWND)Handle, &rect);
 
 	return Vector2((float)(rect.right - rect.left), (float)(rect.bottom - rect.top));
 }

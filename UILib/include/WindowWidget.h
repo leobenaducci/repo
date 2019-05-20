@@ -13,6 +13,10 @@ public:
 	
 	virtual ICanvas* GetCanvas() override { return CanvasWidget; }
 
+	virtual bool OnMousePressed(int x, int y, int btn) override;
+	virtual bool OnMouseReleased(int x, int y, int btn) override;
+	virtual bool OnMouseMoved(int OldX, int OldY, int NewX, int NewY) override;
+
 protected:
 	Widget* TitleBar;
 	Widget* CanvasWidget;

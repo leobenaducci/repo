@@ -30,42 +30,40 @@ int main(int argc, char** argv)
 	SubWidget->SetSize(Vector2(50, 50));
 	SubWidget->Color = Vector4(1, 0, 1, 1);
 	
-	//SubWidget = MainWnd->GetCanvas()->AddChild<Widget>();
-	//SubWidget->SetPosition(Vector2(100, 100));
-	//SubWidget->SetPivot(Vector2(0.f, 0.f));
-	//SubWidget->SetSize(Vector2(400, 300));
-	//SubWidget->SetAnchors(EAnchor::All);
-	//SubWidget->Color = Vector4(0, 0, 1, 1);
-	//
-	//Params.Title = "Child";
-	//Params.Parent = MainWnd;
-	//Params.Width = 400;
-	//Params.Height = 400;
-	//IWindow* ChildWnd = GetPlatform().NewWindow(Params);
-	//
-	//SubWidget = ChildWnd->GetCanvas()->AddChild<Widget>();
-	//SubWidget->SetPosition(Vector2(-100, 100));
-	//SubWidget->SetPivot(Vector2(1.f, 0.f));
-	//SubWidget->SetSize(Vector2(100, 100));
-	//SubWidget->SetAnchors(EAnchor::Top | EAnchor::Right);
-//	//SubWidget->SetAnchors(EAnchor::All);
-	//SubWidget->Color = Vector4(1, 1, 0, 1);
-	//
-	//SubWidget = ChildWnd->GetCanvas()->AddChild<Widget>();
-	//SubWidget->SetPosition(Vector2(100, -100));
-	//SubWidget->SetPivot(Vector2(0.f, 1.f));
-	//SubWidget->SetSize(Vector2(50, 50));
-	//SubWidget->SetAnchors(EAnchor::Bottom | EAnchor::Left);
-//	//SubWidget->SetAnchors(EAnchor::All);
-	//SubWidget->Color = Vector4(0, 1, 1, 1);
+	SubWidget = SubWidget->AddChild<Widget>();
+	SubWidget->SetPosition(Vector2(100, 100));
+	SubWidget->SetPivot(Vector2(0.f, 0.f));
+	SubWidget->SetSize(Vector2(200, 100));
+	SubWidget->SetAnchors(EAnchor::All);
+	SubWidget->Color = Vector4(0, 0, 1, 1);
+	
+	Params.Title = "Child";
+	Params.Parent = MainWnd;
+	Params.Width = 400;
+	Params.Height = 400;
+	IWindow* ChildWnd = GetPlatform().NewWindow(Params);
+	
+	SubWidget = ChildWnd->GetCanvas()->AddChild<Widget>();
+	SubWidget->SetPosition(Vector2(-100, 100));
+	SubWidget->SetPivot(Vector2(1.f, 0.f));
+	SubWidget->SetSize(Vector2(100, 100));
+	SubWidget->SetAnchors(EAnchor::Top | EAnchor::Right);
+//	SubWidget->SetAnchors(EAnchor::All);
+	SubWidget->Color = Vector4(1, 1, 0, 1);
+	
+	SubWidget = ChildWnd->GetCanvas()->AddChild<Widget>();
+	SubWidget->SetPosition(Vector2(100, -100));
+	SubWidget->SetPivot(Vector2(0.f, 1.f));
+	SubWidget->SetSize(Vector2(50, 50));
+	SubWidget->SetAnchors(EAnchor::Bottom | EAnchor::Left);
+//	SubWidget->SetAnchors(EAnchor::All);
+	SubWidget->Color = Vector4(0, 1, 1, 1);
 
 	while (true)
 	{
 		GetPlatform().Tick();
 		if (GetPlatform().RequestingExit())
 			break;
-
-		MainWidget->SetPosition(Vector2(100, 100) + Vector2(cosf(GetTickCount()*0.01f) * 50, -sinf(GetTickCount()*0.01f) * 50));
 	}
 
 	return 0;

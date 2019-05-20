@@ -32,6 +32,9 @@ public:
 	void SetSize(Vector2 NewSize);
 	void SetPivot(Vector2 NewPivot);
 
+	const Vector2& GetCachedPosition() { return CachedPosition; }
+	const Vector2& GetCachedSize() { return CachedSize; }
+
 	void SetAnchors(unsigned int NewAnchors);
 
 	void UpdatePositionAndSize();
@@ -51,6 +54,10 @@ public:
 
 	virtual void Init() {}
 	virtual void Render();
+
+	virtual bool OnMousePressed(int x, int y, int btn);
+	virtual bool OnMouseReleased(int x, int y, int btn);
+	virtual bool OnMouseMoved(int OldX, int OldY, int NewX, int NewY);
 
 	Vector4 Color = Vector4(1,1,1,1);
 

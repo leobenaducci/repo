@@ -152,5 +152,37 @@ void Widget::Render()
 	GetRender().DrawRect(GetPosition(), GetSize(), Image(), Color);
 }
 
+bool Widget::OnMousePressed(int x, int y, int btn)
+{
+	for (auto It : GetChilds())
+	{
+		if (x >= It->GetCachedPosition().x() && x <= It->GetCachedPosition().x() + It->GetCachedSize().x() &&
+			y >= It->GetCachedPosition().y() && y <= It->GetCachedPosition().y() + It->GetCachedSize().y())
+		{
+			It->OnMousePressed(x - It->GetCachedPosition().x(), y - It->GetCachedPosition().y(), btn);
+		}
+	}
+	
+	return false;
+}
 
+bool Widget::OnMouseReleased(int x, int y, int btn)
+{
+	for (auto It : GetChilds())
+	{
+		It->OnMouseReleased(x - GetCachedPosition().x(), y - GetCachedPosition().y(), btn);
+	}
+
+	return false;
+}
+
+bool Widget::OnMouseMoved(int OldX, int OldY, int NewX, int NewY)
+{
+	for (auto It : GetChilds())
+	{
+		It->OnMouseMoved(OldX, OldY, NewX, NewY);
+	}
+
+	return false;
+}
 

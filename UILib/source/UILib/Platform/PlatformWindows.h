@@ -26,6 +26,8 @@ public:
 	void* Handle;
 	IWindow* Parent;
 
+	int LastMouseX = 0, LastMouseY = 0;
+
 	WindowWindows() : Handle(nullptr), Parent(nullptr) {}
 
 	virtual Vector2 GetPosition() const override;
