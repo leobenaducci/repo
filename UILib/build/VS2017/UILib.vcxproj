@@ -26,12 +26,14 @@
     <ClInclude Include="..\..\include\Serializer.h" />
     <ClInclude Include="..\..\include\Vector.h" />
     <ClInclude Include="..\..\include\Widget.h" />
+    <ClInclude Include="..\..\include\WindowWidget.h" />
     <ClInclude Include="..\..\source\UILib\Core\FileStream.h" />
     <ClInclude Include="..\..\source\UILib\Platform\PlatformWindows.h" />
     <ClInclude Include="..\..\source\UILib\Render\RenderOGL.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\include\Widget.cpp" />
+    <ClCompile Include="..\..\source\UILib\Controls\Widget.cpp" />
+    <ClCompile Include="..\..\source\UILib\Controls\WindowWidget.cpp" />
     <ClCompile Include="..\..\source\UILib\Core\FileStream.cpp" />
     <ClCompile Include="..\..\source\UILib\Core\Serializer.cpp" />
     <ClCompile Include="..\..\source\UILib\dummy.cpp" />
@@ -141,11 +143,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\include</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,11 +163,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\include</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

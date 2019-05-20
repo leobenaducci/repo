@@ -28,7 +28,10 @@
     <ClCompile Include="..\..\source\UILib\Render\RenderOGL.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\include\Widget.cpp">
+    <ClCompile Include="..\..\source\UILib\Controls\WindowWidget.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\UILib\Controls\Widget.cpp">
       <Filter>Controls</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,6 +64,9 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\ICanvas.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\WindowWidget.h">
       <Filter>Controls</Filter>
     </ClInclude>
   </ItemGroup>

@@ -61,10 +61,11 @@ IWindow* PlatformWindows::NewWindow(struct WINDOW_CREATION_PARAMS& Params)
 	NewWin->Handle = NewHWND;
 	NewWin->Parent = Params.Parent;
 	NewWin->Canvas = std::move(std::make_unique<Widget>());
-	NewWin->Canvas->Canvas = NewWin;
+	NewWin->Canvas->ParentCanvas = NewWin;
 	NewWin->Canvas->SetAnchors(EAnchor::All);
 	NewWin->Canvas->SetPivot(Vector2(0.f));
 	NewWin->Canvas->SetSize(NewWin->GetSize());
+	NewWin->Canvas->Init();
 	Windows.push_back(NewWin);
 
 	GetRender().OnWindowCreated(NewWin);

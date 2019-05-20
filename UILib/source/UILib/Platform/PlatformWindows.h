@@ -30,6 +30,7 @@ public:
 
 	virtual Vector2 GetPosition() const override;
 	virtual Vector2 GetSize() const override;
+	virtual void UpdatePositionAndSize() override {};
 
 	friend class PlatformWindows;
 };

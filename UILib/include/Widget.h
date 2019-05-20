@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ICanvas.h"
 #include "Vector.h"
 #include <vector>
@@ -28,7 +30,6 @@ public:
 
 	void SetPosition(Vector2 NewPosition);
 	void SetSize(Vector2 NewSize);
-	void SetOffsets(Vector2 TopLeft, Vector2 BottomRight);
 	void SetPivot(Vector2 NewPivot);
 
 	void SetAnchors(unsigned int NewAnchors);
@@ -36,24 +37,27 @@ public:
 	void UpdatePositionAndSize();
 
 	template<typename T>
-	Widget* AddChild()
+	Widget* AddChild(ICanvas* Canvas = nullptr)
 	{
 		auto&& Child = std::make_unique<T>();
-		Child->Canvas = this;
+		Child->ParentCanvas = Canvas ? Canvas : GetCanvas();
 		Child->Parent = this;
 		Childs.push_back(std::move(Child));
+		Childs.back().get()->Init();
 		return Childs.back().get();
 	}
 
-	virtual void OnSizeChanged();
+	virtual ICanvas* GetCanvas() { return this; }
+
+	virtual void Init() {}
 	virtual void Render();
 
 	Vector4 Color = Vector4(1,1,1,1);
 
-	ICanvas* Canvas = nullptr;
+protected:
+	ICanvas* ParentCanvas = nullptr;
 	Widget* Parent = nullptr;
 
-protected:
 	Vector2 OffsetTopLeft = Vector2(0.f);
 	Vector2 OffsetBottomRight = Vector2(0.f);
 	Vector2 Position = Vector2(0.f);
@@ -66,5 +70,7 @@ protected:
 	unsigned int Anchors = EAnchor::Left | EAnchor::Top;
 
 	std::vector<std::unique_ptr<Widget>> Childs;
+
+	friend class PlatformWindows;
 };
 
