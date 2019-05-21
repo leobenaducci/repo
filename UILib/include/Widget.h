@@ -40,17 +40,27 @@ public:
 	void UpdatePositionAndSize();
 
 	template<typename T>
-	Widget* AddChild(ICanvas* Canvas = nullptr)
+	T* AddChild(ICanvas* Canvas = nullptr)
 	{
 		auto&& Child = std::make_unique<T>();
-		Child->ParentCanvas = Canvas ? Canvas : GetCanvas();
+		Child->ParentCanvas = Canvas ? Canvas : GetDefaultCanvas();
 		Child->Parent = this;
 		Childs.push_back(std::move(Child));
 		Childs.back().get()->Init();
-		return Childs.back().get();
+		return (T*)Childs.back().get();
 	}
 
-	virtual ICanvas* GetCanvas() { return this; }
+	void AddExistingChild(Widget* WidgetPtr, ICanvas* Canvas = nullptr)
+	{
+		auto&& Child = std::unique_ptr<Widget>(WidgetPtr);
+		Child->ParentCanvas = Canvas ? Canvas : GetDefaultCanvas();
+		Child->Parent = this;
+		Childs.push_back(std::move(Child));
+	}
+
+	virtual void RemoveFromParent();
+
+	virtual ICanvas* GetDefaultCanvas() { return this; }
 
 	virtual void Init() {}
 	virtual void Render();

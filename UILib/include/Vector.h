@@ -32,6 +32,8 @@ namespace Detail
 		void operator /=(const T a) { *this = *this / a; }
 
 		T Dot(const VectorT<T, N> a) const { T r = 0; for (int i = 0; i < N; i++) r += v[i] * a.v[i]; return r; }
+		VectorT<T, N> Floor() const { VectorT<T, N> r; for (int i = 0; i < N; i++) r.Set(i, floorf(v[i])); return r; }
+		VectorT<T, N> Ceil() const { VectorT<T, N> r; for (int i = 0; i < N; i++) r.Set(i, ceilf(v[i])); return r; }
 
 		T& x() { return v[0]; }
 		const T x() const { return v[0]; }
@@ -45,12 +47,13 @@ namespace Detail
 		T& operator[](int i) { static_assert(i < N); return v[i]; }
 		const T& operator[](int i) const { static_assert(i < N); return v[i]; }
 
-	private:
+	protected:
 		template<typename F>
 		static VectorT<T, N> Op(F&& f) { return VectorT<T, N>(f(0), N > 1 ? f(1) : 0, N > 2 ? f(2) : 0, N > 3 ? f(3) : 0); }
 
+	public:
 		T Get(unsigned int i) const { return i < N ? v[i] : 0; }
-		T Set(unsigned int i, T a) { if (i < N) v[i]; }
+		void Set(unsigned int i, T a) { if (i < N) v[i] = a; }
 	};
 }
 

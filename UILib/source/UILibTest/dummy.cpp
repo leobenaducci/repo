@@ -19,9 +19,14 @@ int main(int argc, char** argv)
 	Widget* MainWidget = SubWidget = MainWnd->GetCanvas()->AddChild<WindowWidget>();
 	SubWidget->SetAnchors(EAnchor::Top | EAnchor::Left);
 	SubWidget->SetPivot(Vector2(0.0f, 0.0f));
+	SubWidget->SetPosition(Vector2(300, 200));
+	SubWidget->SetSize(Vector2(200, 300));
+
+	MainWidget = SubWidget = MainWnd->GetCanvas()->AddChild<WindowWidget>();
+	SubWidget->SetAnchors(EAnchor::Top | EAnchor::Left);
+	SubWidget->SetPivot(Vector2(0.0f, 0.0f));
 	SubWidget->SetPosition(Vector2(100, 100));
 	SubWidget->SetSize(Vector2(400, 300));
-	SubWidget->Color = Vector4(1, 0, 0, 1);
 
 	SubWidget = SubWidget->AddChild<Widget>();
 	SubWidget->SetAnchors(EAnchor::All);

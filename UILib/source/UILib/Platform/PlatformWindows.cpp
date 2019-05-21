@@ -112,7 +112,8 @@ void PlatformWindows::Tick()
 {
 	MSG msg;
 
-	for (auto WinIt : Windows)
+	auto WindowsCopy = Windows;
+	for (auto WinIt : WindowsCopy)
 	{
 		while (PeekMessage(&msg, (HWND)WinIt->Handle, 0, 0, PM_REMOVE))
 		{
@@ -121,7 +122,8 @@ void PlatformWindows::Tick()
 		}
 	}
 
-	for (auto WinIt : Windows)
+	WindowsCopy = Windows;
+	for (auto WinIt : WindowsCopy)
 	{
 		GetRender().PaintWindow(WinIt);
 	}

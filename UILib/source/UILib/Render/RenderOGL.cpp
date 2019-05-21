@@ -63,17 +63,6 @@ void RenderOGL::OnWindowDestroyed(IWindow* pWindow)
 	Windows.erase(pWindow);
 }
 
-static void DrawWidget(Widget* pWidget)
-{
-	pWidget->UpdatePositionAndSize();
-	pWidget->Render();
-
-	for (auto it : pWidget->GetChilds())
-	{
-		DrawWidget(it);
-	}
-}
-
 void RenderOGL::PaintWindow(IWindow* pWindow)
 {
 	OGL_WINDOW_DATA& Data = Windows[pWindow];
@@ -89,7 +78,9 @@ void RenderOGL::PaintWindow(IWindow* pWindow)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	DrawWidget(pWindow->GetCanvas());
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	pWindow->GetCanvas()->Render();
 
 	SwapBuffers(Data.hDC);
 
@@ -118,6 +109,30 @@ void RenderOGL::DrawRect(const Vector2& Pos, const Vector2& Size, const Image& I
 
 void RenderOGL::DrawString(const Vector2& Pos, const Font& Font, wchar_t* Text)
 {
+}
+
+void RenderOGL::DrawLines(const std::vector<RenderOGL::Vertex>& Vertices, bool bStrip)
+{
+	glBegin(bStrip ? GL_LINE_STRIP : GL_LINES);
+	for (const auto& It : Vertices)
+	{
+		glColor4fv(It.Color.v);
+		glTexCoord2fv(It.UV.v);
+		glVertex3fv(It.Pos.v);
+	}
+	glEnd();
+}
+
+void RenderOGL::DrawPoly(const std::vector<RenderOGL::Vertex>& Vertices)
+{
+	glBegin(GL_TRIANGLES);
+	for (const auto& It : Vertices)
+	{
+		glColor4fv(It.Color.v);
+		glTexCoord2fv(It.UV.v);
+		glVertex3fv(It.Pos.v);
+	}
+	glEnd();
 }
 
 void RenderOGL::SetClipRect(const Vector2& Min, const Vector2& Max)

@@ -3,6 +3,7 @@
 
 #include "Vector.h"
 #include <vector>
+#include <algorithm>
 
 Widget::~Widget()
 {
@@ -147,9 +148,28 @@ void Widget::UpdatePositionAndSize()
 #endif
 }
 
+void Widget::RemoveFromParent()
+{
+	if (Parent == nullptr)
+		return;
+
+	auto it = std::find_if(Parent->Childs.begin(), Parent->Childs.end(), [this](const std::unique_ptr<Widget>& A) { return A.get() == this; } );
+	if (it != Parent->Childs.end())
+	{
+		it->release();
+		Parent->Childs.erase(it);
+	}
+}
+
 void Widget::Render()
 {
+	UpdatePositionAndSize();
 	GetRender().DrawRect(GetPosition(), GetSize(), Image(), Color);
+
+	for (auto it : GetChilds())
+	{
+		it->Render();
+	}
 }
 
 bool Widget::OnMousePressed(int x, int y, int btn)
@@ -159,7 +179,8 @@ bool Widget::OnMousePressed(int x, int y, int btn)
 		if (x >= It->GetCachedPosition().x() && x <= It->GetCachedPosition().x() + It->GetCachedSize().x() &&
 			y >= It->GetCachedPosition().y() && y <= It->GetCachedPosition().y() + It->GetCachedSize().y())
 		{
-			It->OnMousePressed(x - It->GetCachedPosition().x(), y - It->GetCachedPosition().y(), btn);
+			if (It->OnMousePressed(x - (int)It->GetCachedPosition().x(), y - (int)It->GetCachedPosition().y(), btn))
+				return true;
 		}
 	}
 	
@@ -170,7 +191,7 @@ bool Widget::OnMouseReleased(int x, int y, int btn)
 {
 	for (auto It : GetChilds())
 	{
-		It->OnMouseReleased(x - GetCachedPosition().x(), y - GetCachedPosition().y(), btn);
+		It->OnMouseReleased(x - (int)GetCachedPosition().x(), y - (int)GetCachedPosition().y(), btn);
 	}
 
 	return false;
