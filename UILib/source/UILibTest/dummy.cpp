@@ -16,53 +16,46 @@ int main(int argc, char** argv)
 
 	Widget* SubWidget = nullptr;
 
-	Widget* MainWidget = SubWidget = MainWnd->GetCanvas()->AddChild<WindowWidget>();
-	SubWidget->SetAnchors(EAnchor::Top | EAnchor::Left);
-	SubWidget->SetPivot(Vector2(0.0f, 0.0f));
-	SubWidget->SetPosition(Vector2(300, 200));
-	SubWidget->SetSize(Vector2(200, 300));
-
-	MainWidget = SubWidget = MainWnd->GetCanvas()->AddChild<WindowWidget>();
-	SubWidget->SetAnchors(EAnchor::Top | EAnchor::Left);
-	SubWidget->SetPivot(Vector2(0.0f, 0.0f));
+	Widget* MainWidget = SubWidget = MainWnd->AddChild<WindowWidget>();
 	SubWidget->SetPosition(Vector2(100, 100));
 	SubWidget->SetSize(Vector2(400, 300));
+	((WindowWidget*)SubWidget)->Name = "SmallWindow";
 
-	SubWidget = SubWidget->AddChild<Widget>();
-	SubWidget->SetAnchors(EAnchor::All);
+	SubWidget = MainWidget->AddChild<Widget>();
+	SubWidget->SetAnchors(EAnchor::Top | EAnchor::Left);
 	SubWidget->SetPivot(Vector2(0.0f, 0.0f));
 	SubWidget->SetPosition(Vector2(50, 50));
 	SubWidget->SetSize(Vector2(50, 50));
 	SubWidget->Color = Vector4(1, 0, 1, 1);
 	
-	SubWidget = SubWidget->AddChild<Widget>();
-	SubWidget->SetPosition(Vector2(100, 100));
-	SubWidget->SetPivot(Vector2(0.f, 0.f));
+	SubWidget = MainWidget->AddChild<Widget>();
+	SubWidget->SetPosition(Vector2(-50, -50));
+	SubWidget->SetPivot(Vector2(1.f, 1.f));
 	SubWidget->SetSize(Vector2(200, 100));
-	SubWidget->SetAnchors(EAnchor::All);
+	SubWidget->SetAnchors(EAnchor::Bottom | EAnchor::Right);
 	SubWidget->Color = Vector4(0, 0, 1, 1);
 	
-	Params.Title = "Child";
-	Params.Parent = MainWnd;
-	Params.Width = 400;
-	Params.Height = 400;
-	IWindow* ChildWnd = GetPlatform().NewWindow(Params);
+	//Params.Title = "Child";
+	//Params.Parent = MainWnd;
+	//Params.Width = 400;
+	//Params.Height = 400;
+	//IWindow* ChildWnd = GetPlatform().NewWindow(Params);
 	
-	SubWidget = ChildWnd->GetCanvas()->AddChild<Widget>();
-	SubWidget->SetPosition(Vector2(-100, 100));
-	SubWidget->SetPivot(Vector2(1.f, 0.f));
-	SubWidget->SetSize(Vector2(100, 100));
-	SubWidget->SetAnchors(EAnchor::Top | EAnchor::Right);
-//	SubWidget->SetAnchors(EAnchor::All);
-	SubWidget->Color = Vector4(1, 1, 0, 1);
-	
-	SubWidget = ChildWnd->GetCanvas()->AddChild<Widget>();
-	SubWidget->SetPosition(Vector2(100, -100));
-	SubWidget->SetPivot(Vector2(0.f, 1.f));
-	SubWidget->SetSize(Vector2(50, 50));
-	SubWidget->SetAnchors(EAnchor::Bottom | EAnchor::Left);
-//	SubWidget->SetAnchors(EAnchor::All);
-	SubWidget->Color = Vector4(0, 1, 1, 1);
+	//SubWidget = ChildWnd->GetCanvas()->AddChild<Widget>();
+	//SubWidget->SetPosition(Vector2(-100, 100));
+	//SubWidget->SetPivot(Vector2(1.f, 0.f));
+	//SubWidget->SetSize(Vector2(100, 100));
+	//SubWidget->SetAnchors(EAnchor::Top | EAnchor::Right);
+//	//SubWidget->SetAnchors(EAnchor::All);
+	//SubWidget->Color = Vector4(1, 1, 0, 1);
+	//
+	//SubWidget = ChildWnd->GetCanvas()->AddChild<Widget>();
+	//SubWidget->SetPosition(Vector2(100, -100));
+	//SubWidget->SetPivot(Vector2(0.f, 1.f));
+	//SubWidget->SetSize(Vector2(50, 50));
+	//SubWidget->SetAnchors(EAnchor::Bottom | EAnchor::Left);
+//	//SubWidget->SetAnchors(EAnchor::All);
+	//SubWidget->Color = Vector4(0, 1, 1, 1);
 
 	while (true)
 	{

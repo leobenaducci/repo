@@ -6,6 +6,7 @@
 class ICanvas
 {
 public:
+	virtual bool IsPlatformWindow() const = 0;
 	virtual Vector2 GetPosition() const = 0;
 	virtual Vector2 GetSize() const = 0;
 

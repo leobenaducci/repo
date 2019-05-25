@@ -45,7 +45,7 @@ void Widget::SetPosition(Vector2 NewPosition)
 
 void Widget::SetSize(Vector2 NewSize)
 {
-	Size = NewSize;
+	Size = Max(NewSize, Vector2(1.f, 1.f));
 
 	if (ParentCanvas)
 	{
@@ -174,12 +174,14 @@ void Widget::Render()
 
 bool Widget::OnMousePressed(int x, int y, int btn)
 {
-	for (auto It : GetChilds())
+	for (int i = Childs.size()-1; i >= 0; i--)
 	{
-		if (x >= It->GetCachedPosition().x() && x <= It->GetCachedPosition().x() + It->GetCachedSize().x() &&
-			y >= It->GetCachedPosition().y() && y <= It->GetCachedPosition().y() + It->GetCachedSize().y())
+		auto It = Childs[i].get();
+
+		if (x >= It->GetPosition().x() && x <= It->GetPosition().x() + It->GetSize().x() &&
+			y >= It->GetPosition().y() && y <= It->GetPosition().y() + It->GetSize().y())
 		{
-			if (It->OnMousePressed(x - (int)It->GetCachedPosition().x(), y - (int)It->GetCachedPosition().y(), btn))
+			if (It->OnMousePressed(x, y, btn))
 				return true;
 		}
 	}
@@ -191,7 +193,7 @@ bool Widget::OnMouseReleased(int x, int y, int btn)
 {
 	for (auto It : GetChilds())
 	{
-		It->OnMouseReleased(x - (int)GetCachedPosition().x(), y - (int)GetCachedPosition().y(), btn);
+		It->OnMouseReleased(x, y, btn);
 	}
 
 	return false;

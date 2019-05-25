@@ -15,6 +15,13 @@ class IWindow : public ICanvas
 {
 public:
 	class Widget* GetCanvas() const { return Canvas.get(); }
+	virtual void SetPosition(Vector2 NewPosition) = 0;
+
+	template<typename T>
+	T* AddChild()
+	{
+		return Canvas->AddChild<T>(this);
+	}
 
 protected:
 	class std::unique_ptr<Widget> Canvas;

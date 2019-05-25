@@ -10,6 +10,8 @@ void WindowWidget::Init()
 {
 	Widget::Init();
 
+	Pivot = Vector2(0.f, 0.f);
+	Anchors = EAnchor::Top | EAnchor::Left;
 	SetSize(Vector2(202.f, 202.f));
 	Color = Vector4(0.25f, 0.25f, 0.25f, 1.f);
 
@@ -54,41 +56,70 @@ void WindowWidget::Init()
 
 bool WindowWidget::OnMousePressed(int x, int y, int btn) 
 {
-	if (x >= TitleBar->GetCachedPosition().x() && x <= TitleBar->GetCachedPosition().x() + TitleBar->GetCachedSize().x() &&
-		y >= TitleBar->GetCachedPosition().y() && y <= TitleBar->GetCachedPosition().y() + TitleBar->GetCachedSize().y())
+	if (Parent)
 	{
-		//RemoveFromParent();
-		//
-		//WINDOW_CREATION_PARAMS Params;
-		//Params.Title = "Main";
-		//Params.X = GetPosition().x();
-		//Params.Y = GetPosition().y();
-		//Params.Width = GetSize().x();
-		//Params.Height = GetSize().y();
-		//IWindow* NewWnd = GetPlatform().NewWindow(Params);
-		//
-		//NewWnd->GetCanvas()->AddExistingChild(this);
-		//
-		//SetPivot(Vector2(0.f));
-		//SetPosition(Vector2(1.f, -31.f));
-		//SetSize(GetSize());
-		//SetAnchors(EAnchor::All);
+		ICanvas* OldParentCanvas = ParentCanvas;
+		RemoveFromParent();
+		Parent->AddExistingChild(this, OldParentCanvas);
+	}
 
+	if (Widget::OnMousePressed(x, y, btn))
+		return true;
+
+	bScaleHorizontalFromLeft = x >= TitleBar->GetPosition().x() - 5 && x <= GetPosition().x() + 5;
+	bScaleHorizontalFromRight = x >= TitleBar->GetPosition().x() + GetSize().x() - 5 && x <= GetPosition().x() + GetSize().x() + 5;
+	bScaleVerticalFromTop = y >= GetPosition().y() - 5 && y <= GetPosition().y() + 5;
+	bScaleVerticalFromBottom = y >= GetPosition().y() + GetSize().y() - 5 && y <= GetPosition().y() + GetSize().y() + 5;
+
+	if (bScaleVerticalFromTop || bScaleVerticalFromBottom || bScaleHorizontalFromLeft || bScaleHorizontalFromRight)
+		return true;
+
+	if (x >= TitleBar->GetPosition().x() && x <= TitleBar->GetPosition().x() + TitleBar->GetSize().x() &&
+		y >= TitleBar->GetPosition().y() && y <= TitleBar->GetPosition().y() + TitleBar->GetSize().y())
+	{
 		bDragging = true;
 	}
-	return false;
+	return true;
 }
 
 bool WindowWidget::OnMouseReleased(int x, int y, int btn)
 {
+	if (Widget::OnMouseReleased(x, y, btn))
+		return true;
+
 	bDragging = false;
+	bScaleHorizontalFromLeft = false;
+	bScaleHorizontalFromRight = false;
+	bScaleVerticalFromTop = false;
+	bScaleVerticalFromBottom = false;
 
 	return false;
 }
 
 bool WindowWidget::OnMouseMoved(int OldX, int OldY, int NewX, int NewY)
 {
-	if (bDragging)
+	if (Widget::OnMouseMoved(OldX, OldY, NewX, NewY))
+		return true;
+
+	if (bScaleVerticalFromTop)
+	{
+		SetPosition(Position + Vector2(0, (float)NewY - OldY));
+		SetSize(Size - Vector2(0, (float)NewY - OldY));
+	}
+	if (bScaleVerticalFromBottom)
+	{
+		SetSize(Size + Vector2(0, (float)NewY - OldY));
+	}
+	if (bScaleHorizontalFromLeft)
+	{
+		SetPosition(Position + Vector2((float)NewX - OldX, 0));
+		SetSize(Size - Vector2((float)NewX - OldX, 0));
+	}
+	if (bScaleHorizontalFromRight)
+	{
+		SetSize(Size + Vector2((float)NewX - OldX, 0));
+	}
+	else if (bDragging)
 	{
 		SetPosition(Position + Vector2((float)NewX - OldX, (float)NewY - OldY));
 	}
@@ -131,7 +162,6 @@ void WindowWidget::Render()
 	Widget::Render();
 }
 
-
 void WindowBarButton::Render()
 {
 	UpdatePositionAndSize();
@@ -161,4 +191,20 @@ void WindowBarButton::Render()
 		GetRender().DrawLine(Vector2(Min.x(), Max.y()), Vector2(Max.x(), Min.y()), Vector4(0.25, 0.25, 0.25, 1.f));
 		break;
 	};
+}
+
+bool WindowBarButton::OnMousePressed(int x, int y, int btn)
+{
+	if (x >= GetPosition().x() && x <= GetPosition().x() + GetSize().x() &&
+		y >= GetPosition().y() && y <= GetPosition().y() + GetSize().y())
+	{	
+		return true;
+	}
+
+	return false;
+}
+
+bool WindowBarButton::OnMouseReleased(int x, int y, int btn)
+{
+	return false;
 }

@@ -30,12 +30,11 @@ public:
 
 	void SetPosition(Vector2 NewPosition);
 	void SetSize(Vector2 NewSize);
-	void SetPivot(Vector2 NewPivot);
+	virtual void SetPivot(Vector2 NewPivot);
+	virtual void SetAnchors(unsigned int NewAnchors);
 
 	const Vector2& GetCachedPosition() { return CachedPosition; }
 	const Vector2& GetCachedSize() { return CachedSize; }
-
-	void SetAnchors(unsigned int NewAnchors);
 
 	void UpdatePositionAndSize();
 
@@ -62,6 +61,7 @@ public:
 
 	virtual ICanvas* GetDefaultCanvas() { return this; }
 
+	virtual bool IsPlatformWindow() const override { return false; }
 	virtual void Init() {}
 	virtual void Render();
 

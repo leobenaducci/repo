@@ -48,7 +48,7 @@ PlatformWindows::~PlatformWindows()
 
 IWindow* PlatformWindows::NewWindow(struct WINDOW_CREATION_PARAMS& Params)
 {
-	DWORD dwStyle = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	DWORD dwStyle = WS_VISIBLE | /*WS_POPUP | WS_BORDER */ WS_OVERLAPPEDWINDOW;
 
 	HWND NewHWND = CreateWindowA(WindowClassName, Params.Title, dwStyle,
 								0, 0, Params.Width, Params.Height, 
@@ -167,6 +167,22 @@ LRESULT PlatformWindows::WndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 		}
 		break;
 	}
+	case WM_MOVE:
+	{
+		//auto It = std::find_if(Windows.begin(), Windows.end(), [hWnd](WindowWindows* A) { return A->Handle == (void*)hWnd; });
+		//if (It != Windows.end())
+		//{
+		//	int xPos = (int)(short)LOWORD(lParam);   // horizontal position 
+		//	int yPos = (int)(short)HIWORD(lParam);   // vertical position 
+		//
+		//	(*It)->LastMouseX += xPos - (*It)->LastPositionX;
+		//	(*It)->LastMouseY += yPos - (*It)->LastPositionY;
+		//
+		//	(*It)->LastPositionX = xPos;
+		//	(*It)->LastPositionY = yPos;
+		//}
+		//break;
+	}
 	case WM_MOUSEMOVE:
 	{
 		auto It = std::find_if(Windows.begin(), Windows.end(), [hWnd](WindowWindows* A) { return A->Handle == (void*)hWnd; });
@@ -194,6 +210,14 @@ Vector2 WindowWindows::GetSize() const
 	GetClientRect((HWND)Handle, &rect);
 
 	return Vector2((float)(rect.right - rect.left), (float)(rect.bottom - rect.top));
+}
+
+void WindowWindows::SetPosition(Vector2 NewPosition)
+{
+	RECT rect;
+	GetWindowRect((HWND)Handle, &rect);
+	SetWindowPos((HWND)Handle, nullptr, (int)NewPosition.x(), (int)NewPosition.y(), 0, 0, SWP_NOSIZE);
+	UpdateWindow((HWND)Handle);
 }
 
 IPlatform& GetPlatform()

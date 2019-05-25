@@ -17,6 +17,9 @@ public:
 	EButtonType Type = EButtonType::Minimize;
 
 	virtual void Render() override;
+
+	virtual bool OnMousePressed(int x, int y, int btn);
+	virtual bool OnMouseReleased(int x, int y, int btn);
 };
 
 class WindowWidget : public Widget
@@ -26,6 +29,9 @@ public:
 
 	virtual void Init() override;
 	
+	virtual void SetPivot(Vector2 NewPivot) override {}
+	virtual void SetAnchors(unsigned int NewAnchors) override {}
+
 	virtual ICanvas* GetDefaultCanvas() override { return CanvasWidget; }
 
 	virtual bool OnMousePressed(int x, int y, int btn) override;
@@ -33,6 +39,8 @@ public:
 	virtual bool OnMouseMoved(int OldX, int OldY, int NewX, int NewY) override;
 
 	virtual void Render() override;
+
+	std::string Name;
 
 protected:
 	Widget* TitleBar;
@@ -43,5 +51,9 @@ protected:
 	Widget* CanvasWidget;
 
 	bool bDragging = false;
+	bool bScaleVerticalFromTop = false;
+	bool bScaleVerticalFromBottom = false;
+	bool bScaleHorizontalFromLeft = false;
+	bool bScaleHorizontalFromRight = false;
 };
 

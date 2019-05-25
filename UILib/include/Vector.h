@@ -35,6 +35,9 @@ namespace Detail
 		VectorT<T, N> Floor() const { VectorT<T, N> r; for (int i = 0; i < N; i++) r.Set(i, floorf(v[i])); return r; }
 		VectorT<T, N> Ceil() const { VectorT<T, N> r; for (int i = 0; i < N; i++) r.Set(i, ceilf(v[i])); return r; }
 
+		friend VectorT<T, N> Max(VectorT<T, N> a, VectorT<T, N> b) { VectorT<T, N> r; for (int i = 0; i < N; i++) r.Set(i, std::max(a.v[i], b.v[i])); return r; }
+		friend VectorT<T, N> Min(VectorT<T, N> a, VectorT<T, N> b) { VectorT<T, N> r; for (int i = 0; i < N; i++) r.Set(i, std::min(a.v[i], b.v[i])); return r; }
+
 		T& x() { return v[0]; }
 		const T x() const { return v[0]; }
 		T& y() { return N > 1 ? v[1] : v[0]; }
