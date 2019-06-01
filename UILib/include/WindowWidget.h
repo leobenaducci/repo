@@ -41,6 +41,7 @@ public:
 	virtual void Render() override;
 
 	std::string Name;
+	bool bCanCreatePlatformWindow = false;
 
 protected:
 	Widget* TitleBar;

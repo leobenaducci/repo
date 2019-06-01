@@ -172,6 +172,12 @@ void Widget::Render()
 	}
 }
 
+IWindow* Widget::GetParentWindow()
+{
+	return ParentCanvas->GetParentWindow();
+}
+
+
 bool Widget::OnMousePressed(int x, int y, int btn)
 {
 	for (int i = Childs.size()-1; i >= 0; i--)

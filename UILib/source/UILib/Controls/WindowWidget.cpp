@@ -66,41 +66,72 @@ bool WindowWidget::OnMousePressed(int x, int y, int btn)
 	if (Widget::OnMousePressed(x, y, btn))
 		return true;
 
+	if (Anchors == EAnchor::All)
+		return true;
+	
 	bScaleHorizontalFromLeft = x >= TitleBar->GetPosition().x() - 5 && x <= GetPosition().x() + 5;
 	bScaleHorizontalFromRight = x >= TitleBar->GetPosition().x() + GetSize().x() - 5 && x <= GetPosition().x() + GetSize().x() + 5;
 	bScaleVerticalFromTop = y >= GetPosition().y() - 5 && y <= GetPosition().y() + 5;
 	bScaleVerticalFromBottom = y >= GetPosition().y() + GetSize().y() - 5 && y <= GetPosition().y() + GetSize().y() + 5;
 
 	if (bScaleVerticalFromTop || bScaleVerticalFromBottom || bScaleHorizontalFromLeft || bScaleHorizontalFromRight)
+	{
+		GetParentWindow()->SetCapturedWidget(this);
 		return true;
+	}
 
 	if (x >= TitleBar->GetPosition().x() && x <= TitleBar->GetPosition().x() + TitleBar->GetSize().x() &&
 		y >= TitleBar->GetPosition().y() && y <= TitleBar->GetPosition().y() + TitleBar->GetSize().y())
 	{
-		bDragging = true;
+		if (bCanCreatePlatformWindow)
+		{
+			TitleBar->SetSize(Vector2(TitleBar->GetSize().x(), 0.f));
+			CanvasWidget->SetPosition(Vector2(1.f, 1.f));
+			CanvasWidget->SetSize(CanvasWidget->GetSize() + Vector2(0,30.f));
+
+			IWindow* Wnd = (IWindow*)Parent->ParentCanvas;
+			Vector2 AbsPos = Wnd->PositionToAbsolute(GetPosition());
+
+			RemoveFromParent();
+
+			WINDOW_CREATION_PARAMS Params;
+			Params.Title = "Child";
+			Params.X = (int)AbsPos.x();
+			Params.Y = (int)AbsPos.y();
+			Params.Width = (int)GetSize().x();
+			Params.Height = (int)GetSize().y();
+			Params.bStartDragging = true;
+			IWindow* MainWnd = GetPlatform().NewWindow(Params);
+
+			MainWnd->GetCanvas()->AddExistingChild(this);
+			SetPosition(Vector2(0.f, 0.f));
+			Anchors = EAnchor::All;
+		}
+		else
+		{
+			bDragging = true;
+		}
 	}
 	return true;
 }
 
 bool WindowWidget::OnMouseReleased(int x, int y, int btn)
 {
-	if (Widget::OnMouseReleased(x, y, btn))
-		return true;
-
 	bDragging = false;
 	bScaleHorizontalFromLeft = false;
 	bScaleHorizontalFromRight = false;
 	bScaleVerticalFromTop = false;
 	bScaleVerticalFromBottom = false;
+	GetParentWindow()->ReleaseCapturedWidget();
+
+	if (Widget::OnMouseReleased(x, y, btn))
+		return true;
 
 	return false;
 }
 
 bool WindowWidget::OnMouseMoved(int OldX, int OldY, int NewX, int NewY)
 {
-	if (Widget::OnMouseMoved(OldX, OldY, NewX, NewY))
-		return true;
-
 	if (bScaleVerticalFromTop)
 	{
 		SetPosition(Position + Vector2(0, (float)NewY - OldY));
@@ -122,6 +153,11 @@ bool WindowWidget::OnMouseMoved(int OldX, int OldY, int NewX, int NewY)
 	else if (bDragging)
 	{
 		SetPosition(Position + Vector2((float)NewX - OldX, (float)NewY - OldY));
+	}
+
+	if (Widget::OnMouseMoved(OldX, OldY, NewX, NewY))
+	{
+		return true;
 	}
 
 	return false;

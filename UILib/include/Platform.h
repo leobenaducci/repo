@@ -9,13 +9,18 @@ struct WINDOW_CREATION_PARAMS
 	unsigned int Width = 0;
 	unsigned int Height = 0;
 	class IWindow* Parent = nullptr;
+	bool bStartDragging = false;
 };
 
 class IWindow : public ICanvas
 {
 public:
 	class Widget* GetCanvas() const { return Canvas.get(); }
-	virtual void SetPosition(Vector2 NewPosition) = 0;
+	virtual Vector2 PositionToAbsolute(Vector2 RelativePosition) const = 0;
+	
+	virtual void Move(Vector2 Offset) = 0;
+	void SetCapturedWidget(Widget* widget) { CapturedWidget = widget; }
+	void ReleaseCapturedWidget() { CapturedWidget = nullptr; }
 
 	template<typename T>
 	T* AddChild()
@@ -25,6 +30,7 @@ public:
 
 protected:
 	class std::unique_ptr<Widget> Canvas;
+	Widget* CapturedWidget = nullptr;
 };
 
 class IPlatform

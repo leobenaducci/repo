@@ -28,8 +28,8 @@ public:
 	virtual Vector2 GetSize() const override;
 	std::vector<Widget*> GetChilds() const;
 
-	void SetPosition(Vector2 NewPosition);
-	void SetSize(Vector2 NewSize);
+	virtual void SetPosition(Vector2 NewPosition) override;
+	virtual void SetSize(Vector2 NewSize) override;
 	virtual void SetPivot(Vector2 NewPivot);
 	virtual void SetAnchors(unsigned int NewAnchors);
 
@@ -60,6 +60,7 @@ public:
 	virtual void RemoveFromParent();
 
 	virtual ICanvas* GetDefaultCanvas() { return this; }
+	virtual IWindow* GetParentWindow() override;
 
 	virtual bool IsPlatformWindow() const override { return false; }
 	virtual void Init() {}
@@ -71,10 +72,10 @@ public:
 
 	Vector4 Color = Vector4(1,1,1,1);
 
-protected:
 	ICanvas* ParentCanvas = nullptr;
 	Widget* Parent = nullptr;
 
+protected:
 	Vector2 OffsetTopLeft = Vector2(0.f);
 	Vector2 OffsetBottomRight = Vector2(0.f);
 	Vector2 Position = Vector2(0.f);
